@@ -1,0 +1,5 @@
+# Default ignored files
+target
+.idea
+*.iml
+pom.xml.versionsBackup

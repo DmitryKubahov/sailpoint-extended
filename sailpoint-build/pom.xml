@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>sailpoint-extension-parent</artifactId>
+        <groupId>com.sailpoint.extension</groupId>
+        <version>0.0.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>sailpoint-build</artifactId>
+    <packaging>pom</packaging>
+
+    <!-- Properties for project -->
+    <properties>
+        <!-- Properties for SSB -->
+        <!-- All necessary paths -->
+        <sailpoint.build.directory.path>/home/kubakhov/IdeaProjects/ssd</sailpoint.build.directory.path>
+        <sailpoint.custom.library.directory.path>${sailpoint.build.directory.path}/web/WEB-INF/lib
+        </sailpoint.custom.library.directory.path>
+        <sailpoint.classes.directory.path>${sailpoint.build.directory.path}/web/WEB-INF/classes
+        </sailpoint.classes.directory.path>
+
+        <!-- Versions properties -->
+        <maven.dependency.plugin.version>3.1.1</maven.dependency.plugin.version>
+        <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
+        <exec.maven.plugin.version>1.6.0</exec.maven.plugin.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>sailpoint-build-inner-profile</id>
+            <activation>
+                <property>
+                    <name>sailpoint</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- Copy all custom libraries:
+                            - sail-point-annotation.jar
+
+                         to custom jar folder (ssb/web/WEB_INF/lib) to include them to war -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven.dependency.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>copy</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <artifactItems>
+                                <!-- Sailpoint extension jar -->
+                                <artifactItem>
+                                    <groupId>com.sailpoint.extension</groupId>
+                                    <artifactId>sailpoint-extension</artifactId>
+                                    <version>${version}</version>
+                                    <outputDirectory>${sailpoint.custom.library.directory.path}</outputDirectory>
+                                </artifactItem>
+                                <!-- Liquibase additional jar for identityiq -->
+                                <artifactItem>
+                                    <groupId>org.liquibase</groupId>
+                                    <artifactId>liquibase-core</artifactId>
+                                    <version>${liquibase.version}</version>
+                                    <outputDirectory>${sailpoint.custom.library.directory.path}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </plugin>
+
+                    <!-- Copy iiqCustomBeans.xml to web/WEB-INF/classes
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>${maven.resources.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>copy-resources</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${ssb.classes.path}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${basedir}</directory>
+                                            <includes>
+                                                <include>iiqCustomBeans.xml</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    -->
+
+
+                    <!-- Run ant task for building identityiq.war -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${exec.maven.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <environmentVariables>
+                                        <SPTARGET>${sailpoint.environment.target}</SPTARGET>
+                                    </environmentVariables>
+                                    <executable>ant</executable>
+                                    <workingDirectory>${sailpoint.build.directory.path}</workingDirectory>
+                                    <arguments>
+                                        <argument>main</argument>
+                                        <argument>war</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

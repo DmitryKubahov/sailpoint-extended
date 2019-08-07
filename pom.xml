@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.sailpoint.extension</groupId>
+    <artifactId>sailpoint-extension-parent</artifactId>
+    <version>0.0.1</version>
+    <modules>
+        <module>sailpoint-extension</module>
+        <module>sailpoint-build</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <!-- Properties for all modules -->
+    <properties>
+        <!-- Default sail point target  -->
+        <sailpoint.environment.target>sandbox</sailpoint.environment.target>
+
+        <!-- Versions properties -->
+        <liquibase.version>3.7.0</liquibase.version>
+        <spring.version>5.1.5.RELEASE</spring.version>
+        <spring.data.jpa.version>1.11.22.RELEASE</spring.data.jpa.version>
+        <hibernate.version>5.3.7.Final</hibernate.version>
+        <lombok.version>1.18.8</lombok.version>
+
+        <!-- plugins versions -->
+        <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
+
+    </properties>
+
+    <!-- Use spring bom to avoid repeat using of version properties-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Profiles for building war of identityIQ -->
+    <profiles>
+        <profile>
+            <!-- Building war of identityIQ for DEV environment -->
+            <id>war_dev</id>
+            <properties>
+                <sailpoint.environment.target>sandbox</sailpoint.environment.target>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>
