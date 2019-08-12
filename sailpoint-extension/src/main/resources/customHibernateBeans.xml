@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+        "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!-- (c) Copyright 2008 SailPoint Technologies, Inc., All Rights Reserved. -->
+
+<!--
+  Bean definitions related to Hibernate.
+  Requires a bean named "dataSource" to be defined elsewhere.
+  SailPointSchemaGenerator expects that there be a bean with an id of
+      sessionFactory that has child properties of namingStrategy and
+      mappingResources.
+-->
+<beans default-autowire="byName" default-lazy-init="false" >
+
+    <!-- This sets some options that make IIQ work with newer versions of hibernate. -->
+    <bean class="sailpoint.persistence.HibernateBackwardsCompatibilifier" />
+
+
+    <!-- Configuration for the hibernate SessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" depends-on="sailpointDBLiquibase">
+        <property name="dataSource">
+            <ref bean="configuredDataSource" />
+        </property>
+
+        <!-- Spring ties Session lifecycle to transaction lifecycle by default.
+             Turn this off since HibernatePersistenceManager manages Sessions
+             independently of the transactions.
+             TODO: No Longer valid with Hiberate5 LocalSessionFactory
+        <property name="exposeTransactionAwareSessionFactory" value="false"/>
+        -->
+
+        <!-- Use a better naming strategy than the default.
+             Do not change without also changing
+             sailpoint.persistence.SailPointSchemaGenerator -->
+        <property name="physicalNamingStrategy">
+            <bean id="spNamingStrategy" class="sailpoint.persistence.SPNamingStrategy" />
+        </property>
+
+        <!-- We're not setting the interceptor in HibernatePersistenceManager to 
+             make sure we get a new one for every session.  It is unclear whether
+             Spring shares the same interceptor among multiple sessions.
+        <property name="entityInterceptor">
+            <bean id="interceptor" class="sailpoint.persistence.SailPointInterceptor" />
+        </property>
+         -->
+        
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+        
+        <!-- Dialect is being set from iiq.properties, but here are examples -->
+        <property name="hibernateProperties">
+          <props>
+
+            <!-- ORACLE
+            <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+            -->
+
+            <!-- MSSQL 
+            <prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+            -->
+
+            <!-- MySQL
+            <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+            -->
+
+          </props>
+        </property>
+      
+      <property name="hibernateIntegrators">
+        <bean id="metaDataIntegrator" class="sailpoint.persistence.HibernateMetadataIntegrator" />
+      </property>
+
+
+    </bean>
+
+    <bean id="hibernatePersistenceManager" class="sailpoint.persistence.HibernatePersistenceManager">
+      <!-- This should only be turned on if you think the optimizer is broken -->
+      <property name="disableOptimizer" value="false"/>
+      <property name="disableNewLocking" value="false"/>
+      <!-- uncomment this to enable log warnings when an unlocked Identity is flushed
+      <property name="enableThreadLockConsistencyCheck" value="true"/>
+      -->
+      <!-- uncomment this to cause unlocked Identity detections to throw exceptions rather than log
+      <property name="throwOnThreadLockInconsistency" value="true"/>
+      -->
+    </bean>
+
+    <!-- 
+      In a few of the unit tests we need a way to get a 
+      HibernatePersistenceManager.  The one we created above will be
+      wired in deep below the initial InternalContext and is not accessible
+      to the unit tests. Rather than bore another hole in the SailPointContext
+      and PersistenceManager interfaces, we'll also store it in a special
+      singleton that only the unit tests are allowed to access.
+    -->
+    <bean id='unitTestFactory' 
+       class='sailpoint.persistence.UnitTestFactory'
+       factory-method='getFactory'>
+       <property name='sessionFactory' ref='sessionFactory'/>
+    </bean>
+
+</beans>

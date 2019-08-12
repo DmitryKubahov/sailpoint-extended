@@ -1,0 +1,385 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="sailpoint" id="1">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="QRTZ221_JOB_DETAILS"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="QRTZ221_JOB_DETAILS">
+            <column name="SCHED_NAME" type="VARCHAR2(120)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_JOB_DETAILS_PK"/>
+            </column>
+            <column name="JOB_NAME" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_JOB_DETAILS_PK"/>
+            </column>
+            <column name="JOB_GROUP" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_JOB_DETAILS_PK"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR2(250)"/>
+            <column name="JOB_CLASS_NAME" type="VARCHAR2(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IS_DURABLE" type="VARCHAR2(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IS_NONCONCURRENT" type="VARCHAR2(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IS_UPDATE_DATA" type="VARCHAR2(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REQUESTS_RECOVERY" type="VARCHAR2(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="JOB_DATA" type="BLOB"/>
+        </createTable>
+
+
+        <createTable tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME" type="VARCHAR2(120)">
+                <constraints primaryKey="true" primaryKeyName="QRTZ221_TRIGGERS_PK"/>
+            </column>
+            <column name="TRIGGER_NAME" type="VARCHAR2(200)">
+                <constraints primaryKey="true" primaryKeyName="QRTZ221_TRIGGERS_PK"/>
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR2(200)">
+                <constraints primaryKey="true" primaryKeyName="QRTZ221_TRIGGERS_PK"/>
+            </column>
+            <column name="JOB_NAME" type="VARCHAR2(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="JOB_GROUP" type="VARCHAR2(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR2(250)"/>
+            <column name="NEXT_FIRE_TIME" type="NUMBER(13, 0)"/>
+            <column name="PREV_FIRE_TIME" type="NUMBER(13, 0)"/>
+            <column name="PRIORITY" type="NUMBER(13, 0)"/>
+            <column name="TRIGGER_STATE" type="VARCHAR2(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TRIGGER_TYPE" type="VARCHAR2(8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="START_TIME" type="NUMBER(13, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_TIME" type="NUMBER(13, 0)"/>
+            <column name="CALENDAR_NAME" type="VARCHAR2(200)"/>
+            <column name="MISFIRE_INSTR" type="NUMBER(2, 0)"/>
+            <column name="JOB_DATA" type="BLOB"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="QRTZ221_TRIGGER_TO_JOBS_FK"
+                                 baseTableName="QRTZ221_TRIGGERS"
+                                 baseColumnNames="SCHED_NAME,JOB_NAME,JOB_GROUP"
+                                 referencedTableName="QRTZ221_JOB_DETAILS"
+                                 referencedColumnNames="SCHED_NAME,JOB_NAME,JOB_GROUP"/>
+
+
+        <createTable tableName="QRTZ221_SIMPLE_TRIGGERS">
+            <column name="SCHED_NAME" type="VARCHAR2(120)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_SMPL_TRIG_PK"/>
+            </column>
+            <column name="TRIGGER_NAME" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_SMPL_TRIG_PK"/>
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_SMPL_TRIG_PK"/>
+            </column>
+            <column name="REPEAT_COUNT" type="NUMBER(7)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REPEAT_INTERVAL" type="NUMBER(12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TIMES_TRIGGERED" type="NUMBER(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="QRTZ221_SMPL_TRIG_TO_TRIG_FK"
+                                 baseTableName="QRTZ221_SIMPLE_TRIGGERS"
+                                 baseColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"
+                                 referencedTableName="QRTZ221_TRIGGERS"
+                                 referencedColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"/>
+
+
+        <createTable tableName="QRTZ221_CRON_TRIGGERS">
+            <column name="SCHED_NAME" type="VARCHAR2(120)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_CRON_TRIG_PK"/>
+            </column>
+            <column name="TRIGGER_NAME" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_CRON_TRIG_PK"/>
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_CRON_TRIG_PK"/>
+            </column>
+            <column name="CRON_EXPRESSION" type="VARCHAR2(120)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TIME_ZONE_ID" type="VARCHAR2(80)"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="QRTZ221_CRON_TRIG_TO_TRIG_FK"
+                                 baseTableName="QRTZ221_CRON_TRIGGERS"
+                                 baseColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"
+                                 referencedTableName="QRTZ221_TRIGGERS"
+                                 referencedColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"/>
+
+
+        <createTable tableName="QRTZ221_SIMPROP_TRIGGERS">
+            <column name="SCHED_NAME" type="VARCHAR2(120)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_SIMPROP_TRIG_PK"/>
+            </column>
+            <column name="TRIGGER_NAME" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_SIMPROP_TRIG_PK"/>
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_SIMPROP_TRIG_PK"/>
+            </column>
+            <column name="STR_PROP_1" type="VARCHAR2(512)"/>
+            <column name="STR_PROP_2" type="VARCHAR2(512)"/>
+            <column name="STR_PROP_3" type="VARCHAR2(512)"/>
+            <column name="INT_PROP_1" type="NUMBER(10)"/>
+            <column name="INT_PROP_2" type="NUMBER(10)"/>
+            <column name="LONG_PROP_1" type="NUMBER(13)"/>
+            <column name="LONG_PROP_2" type="NUMBER(13)"/>
+            <column name="DEC_PROP_1" type="NUMERIC(13,4)"/>
+            <column name="DEC_PROP_2" type="NUMERIC(13,4)"/>
+            <column name="BOOL_PROP_1" type="VARCHAR2(1)"/>
+            <column name="BOOL_PROP_2" type="VARCHAR2(1)"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="QRTZ221_SP_TRIG_TO_TRIG_FK"
+                                 baseTableName="QRTZ221_SIMPROP_TRIGGERS"
+                                 baseColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"
+                                 referencedTableName="QRTZ221_TRIGGERS"
+                                 referencedColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"/>
+
+
+        <createTable tableName="QRTZ221_BLOB_TRIGGERS">
+            <column name="SCHED_NAME" type="VARCHAR2(120)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_BLOB_TRIG_PK"/>
+            </column>
+            <column name="TRIGGER_NAME" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_BLOB_TRIG_PK"/>
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_BLOB_TRIG_PK"/>
+            </column>
+            <column name="BLOB_DATA" type="BLOB"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="QRTZ221_BLOB_TRIG_TO_TRIG_FK"
+                                 baseTableName="QRTZ221_BLOB_TRIGGERS"
+                                 baseColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"
+                                 referencedTableName="QRTZ221_TRIGGERS"
+                                 referencedColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"/>
+
+
+        <createTable tableName="QRTZ221_CALENDARS">
+            <column name="SCHED_NAME" type="VARCHAR2(120)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_CALENDARS_PK"/>
+            </column>
+            <column name="CALENDAR_NAME" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_CALENDARS_PK"/>
+            </column>
+            <column name="CALENDAR" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+
+        <createTable tableName="QRTZ221_PAUSED_TRIGGER_GRPS">
+            <column name="SCHED_NAME" type="VARCHAR2(120)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_PAUSED_TRIG_GRPS_PK"/>
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_PAUSED_TRIG_GRPS_PK"/>
+            </column>
+        </createTable>
+
+
+        <createTable tableName="QRTZ221_FIRED_TRIGGERS">
+            <column name="SCHED_NAME" type="VARCHAR2(120)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_FIRED_TRIGGER_PK"/>
+            </column>
+            <column name="ENTRY_ID" type="VARCHAR2(95)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_FIRED_TRIGGER_PK"/>
+            </column>
+            <column name="TRIGGER_NAME" type="VARCHAR2(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR2(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="INSTANCE_NAME" type="VARCHAR2(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FIRED_TIME" type="NUMBER(13)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SCHED_TIME" type="NUMBER(13)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRIORITY" type="NUMBER(13)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STATE" type="VARCHAR2(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="JOB_NAME" type="VARCHAR2(200)"/>
+            <column name="JOB_GROUP" type="VARCHAR2(200)"/>
+            <column name="IS_NONCONCURRENT" type="VARCHAR2(1)"/>
+            <column name="REQUESTS_RECOVERY" type="VARCHAR2(1)"/>
+        </createTable>
+
+
+        <createTable tableName="QRTZ221_SCHEDULER_STATE">
+            <column name="SCHED_NAME" type="VARCHAR2(120)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_SCHEDULER_STATE_PK"/>
+            </column>
+            <column name="INSTANCE_NAME" type="VARCHAR2(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_SCHEDULER_STATE_PK"/>
+            </column>
+            <column name="LAST_CHECKIN_TIME" type="NUMBER(13)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CHECKIN_INTERVAL" type="NUMBER(13)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="QRTZ221_LOCKS">
+            <column name="SCHED_NAME" type="VARCHAR2(120)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_LOCKS_PK"/>
+            </column>
+            <column name="LOCK_NAME" type="VARCHAR2(40)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_LOCKS_PK"/>
+            </column>
+        </createTable>
+
+
+        <insert tableName="QRTZ221_LOCKS">
+            <column name="SCHED_NAME" value="QuartzScheduler"/>
+            <column name="LOCK_NAME" value="TRIGGER_ACCESS"/>
+        </insert>
+        <insert tableName="QRTZ221_LOCKS">
+            <column name="SCHED_NAME" value="QuartzScheduler"/>
+            <column name="LOCK_NAME" value="JOB_ACCESS"/>
+        </insert>
+        <insert tableName="QRTZ221_LOCKS">
+            <column name="SCHED_NAME" value="QuartzScheduler"/>
+            <column name="LOCK_NAME" value="CALENDAR_ACCESS"/>
+        </insert>
+        <insert tableName="QRTZ221_LOCKS">
+            <column name="SCHED_NAME" value="QuartzScheduler"/>
+            <column name="LOCK_NAME" value="STATE_ACCESS"/>
+        </insert>
+        <insert tableName="QRTZ221_LOCKS">
+            <column name="SCHED_NAME" value="QuartzScheduler"/>
+            <column name="LOCK_NAME" value="MISFIRE_ACCESS"/>
+        </insert>
+
+
+        <createIndex indexName="IDX_QRTZ221_J_REQ_RECOVERY" tableName="QRTZ221_JOB_DETAILS">
+            <column name="SCHED_NAME"/>
+            <column name="REQUESTS_RECOVERY"/>
+        </createIndex>
+
+        <createIndex indexName="IDX_QRTZ221_J_GRP" tableName="QRTZ221_JOB_DETAILS">
+            <column name="SCHED_NAME"/>
+            <column name="JOB_GROUP"/>
+        </createIndex>
+
+        <createIndex indexName="IDX_QRTZ221_T_J" tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="JOB_NAME"/>
+            <column name="JOB_GROUP"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_T_JG" tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="JOB_GROUP"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_T_C" tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="CALENDAR_NAME"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_T_G" tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="TRIGGER_GROUP"/>
+        </createIndex>
+
+        <createIndex indexName="IDX_QRTZ221_T_STATE" tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="TRIGGER_STATE"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_T_N_STATE" tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="TRIGGER_NAME"/>
+            <column name="TRIGGER_GROUP"/>
+            <column name="TRIGGER_STATE"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_T_N_G_STATE" tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="TRIGGER_GROUP"/>
+            <column name="TRIGGER_STATE"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_T_NEXT_FIRE_TIME" tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="NEXT_FIRE_TIME"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_T_NFT_ST" tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="TRIGGER_STATE"/>
+            <column name="NEXT_FIRE_TIME"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_T_NFT_MISFIRE" tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="MISFIRE_INSTR"/>
+            <column name="NEXT_FIRE_TIME"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_T_NFT_ST_MISFIRE" tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="MISFIRE_INSTR"/>
+            <column name="NEXT_FIRE_TIME"/>
+            <column name="TRIGGER_STATE"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_T_NFT_ST_MF_GRP" tableName="QRTZ221_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="MISFIRE_INSTR"/>
+            <column name="NEXT_FIRE_TIME"/>
+            <column name="TRIGGER_GROUP"/>
+            <column name="TRIGGER_STATE"/>
+        </createIndex>
+
+        <createIndex indexName="IDX_QRTZ221_FT_TRIG_INST_NAME" tableName="QRTZ221_FIRED_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="INSTANCE_NAME"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_FT_INST_REQ_RCVRY" tableName="QRTZ221_FIRED_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="INSTANCE_NAME"/>
+            <column name="REQUESTS_RECOVERY"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_FT_J_G" tableName="QRTZ221_FIRED_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="JOB_NAME"/>
+            <column name="JOB_GROUP"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_FT_JG" tableName="QRTZ221_FIRED_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="JOB_GROUP"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_FT_T_G" tableName="QRTZ221_FIRED_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="TRIGGER_NAME"/>
+            <column name="TRIGGER_GROUP"/>
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ221_FT_TG" tableName="QRTZ221_FIRED_TRIGGERS">
+            <column name="SCHED_NAME"/>
+            <column name="TRIGGER_GROUP"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

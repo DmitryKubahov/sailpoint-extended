@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+        "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!-- (c) Copyright 2008 SailPoint Technologies, Inc., All Rights Reserved. -->
+
+<!--
+  Primary Bean definitions for SailPoint applications.
+  It was called "admin" thinking that there might be a difference between
+  the administrative and end-user applications, but it is actuall used
+  for everything: the web app, the console, and the unit tests.
+-->
+
+<beans default-autowire="byName" default-lazy-init="false" >
+
+    <import resource="customConfigBeans.xml"/>
+    <import resource="customHibernateBeans.xml"/>
+
+    <!--
+    ===========================================================
+    Quartz
+    =========================================================== 
+    -->
+
+    <!-- 
+      Initializes the Quartz scheduler but does not start it.
+      Will also shut down the scheduler when the factory bean is destroyed.
+    -->
+	<bean id="scheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <!-- this avoids the need for a quartz.properties file -->
+        <property name="quartzProperties">
+          <props>
+            <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+            <prop key="org.quartz.threadPool.threadCount">5</prop>
+            <prop key="org.quartz.threadPool.threadPriority">5</prop>
+
+            <!--
+              This is ignored by Quartz.  Since we specify a dataSource, SchedulerFactoryBean
+              instantiates a LocalDataSourceJobStore, which extends JobStoreCMT.
+             -->
+            <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+
+            <!-- MySQL and Oracle work with the standard delagate -->
+            <prop key="org.quartz.jobStore.driverDelegateClass">org.quartz.impl.jdbcjobstore.StdJDBCDelegate</prop>
+
+            <!-- MSSQL requires this delegate and adjustment
+            <prop key="org.quartz.jobStore.driverDelegateClass">org.quartz.impl.jdbcjobstore.MSSQLDelegate</prop>
+            <prop key="org.quartz.jobStore.selectWithLockSQL">SELECT * FROM {0}LOCKS UPDLOCK WHERE LOCK_NAME = ?</prop>
+            -->
+
+            <!-- sigh, this is CASE SENSITIVE on Linux -->
+            <prop key="org.quartz.jobStore.tablePrefix">QRTZ221_</prop>
+
+            <!-- maintain backward-compatibility by using same scheduler name used in earlier releases -->
+            <prop key="org.quartz.scheduler.instanceName">QuartzScheduler</prop>
+
+            <!-- This enables storing JobDataMaps as strings rather than blobs
+                 which is nicer for debugging, however the distributed schema doesn't
+                 have any provisions for that? -->
+            <prop key="org.quartz.jobStore.useProperties">true</prop> 
+
+          </props>
+        </property>
+
+        <!-- share the same dataSource with Hibernate -->
+        <property name='dataSource' ref='configuredDataSource'/>
+
+        <!--
+          Don't auto-start - startup and shutdown of the scheduler will be done
+          with Environment so we have more control over which applications
+          sharing the same spring config start the scheduler.
+        -->
+        <property name='autoStartup' value='false' />
+
+        <!-- can't do this yet, see comments in schedulerJobFactory below
+        <property name='jobFactory' ref='schedulerJobFactory'/>
+        -->
+	</bean>
+
+    <!-- 
+       A custom implementation of the Quartz JobFactory interface
+       that is used to instantiate Job classes.   This would preferably
+       be referenced in the definition of the "scheduler" bean above,
+       but the version of Spring we're using doesn't expose "jobFactory"
+       as a property of SchedulerFactoryBean.  
+
+       To work around this, we'll pass the scheduler as a property to 
+       this object, which will turn around and call Scheduler.setJobFactory.  
+
+       The problem is that there is a short window after the instantiation
+       of the scheduler where the JobFactory has not been replaced.  If the
+       scheduler is started and there is a scheduled job ready to run, 
+       that may fail.  We should be avoiding this case by deferring
+       the startup of the scheduler until after all the Spring
+       objects have been created and wired.
+    -->
+    <bean id="schedulerJobFactory" 
+      class="sailpoint.scheduler.SailPointJobFactory">
+      <property name='scheduler' ref='scheduler'/>
+    </bean>
+
+    <!--
+      Bean to manage the startup and shutdown of the Quartz Scheduler.
+      This will become part of the Environment and eventaully be called
+      by SystemStarter to bring up the scheduler once everything else
+      has been wired.  We also have a destroy-method to make sure
+      the scheduler is shut down cleanly.
+    -->
+    <bean id='quartzStarter'
+          class='sailpoint.scheduler.QuartzSchedulerStarter'
+          destroy-method='shutdownAndWaitForThread'>
+
+      <constructor-arg><ref bean='scheduler' /></constructor-arg>
+    </bean>
+
+    <!-- 
+    ===========================================================
+    PersistenceManager
+    ============================================================
+    -->
+
+    <!-- 
+      Persistence manager that converts TaskSchedule objects too and
+      from the Quartz tables
+     -->
+    <bean id='quartzPersistenceManager'
+      class='sailpoint.scheduler.QuartzPersistenceManager'>
+      <property name='scheduler' ref='scheduler'/>
+    </bean>
+
+    <!-- 
+      Persistence dispatcher, use Hibernate by default with a special
+       case for TaskSchedule that redirects to Quartz.
+    -->
+    <bean id="persistenceManager" 
+        class='sailpoint.persistence.ClassPersistenceManager'>
+        <property name='defaultManager'>
+            <ref bean="hibernatePersistenceManager"/>
+        </property>
+        <property name='managers'>
+            <map>
+                <entry key='TaskSchedule'>
+                  <ref bean='quartzPersistenceManager'/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <!--
+    ===========================================================
+    RuleRunner
+    ============================================================
+    -->
+
+    <bean id="ruleRunner" class="sailpoint.server.BSFRuleRunner">
+        <property name='maxPoolReuse' value='1000'/>
+    </bean>
+
+    <!--
+    ===========================================================
+    Jasper
+    ============================================================
+    -->
+
+    <!-- 
+      Set dynamic Jasper properties.  
+      Don't seem to have any at the moment.
+     -->
+    <bean id='JasperInit' class='sailpoint.reporting.JasperInit' depends-on='systemStarter'/>
+
+    <!--
+    ===========================================================
+    java.util.Logging
+    ============================================================
+    -->
+
+    <!-- 
+      Some third party libraries (Jersey and Tomahawk, for example)
+      use java.util.Logging to log some things at INFO level.
+      Instead of requiring a properties file to change this, we'll
+      use the log suppressor bean to crank the logging down.
+     -->
+    <bean id='JavaLoggingSuppressor' class='sailpoint.server.JavaLoggingSuppressor'/>
+
+    <!--
+    ===========================================================
+    Plugins Configuration
+    ============================================================
+    -->
+
+    <!--
+      Contains global plugins configuration
+    -->
+    <bean id="plugins" class="sailpoint.server.PluginsConfiguration">
+        <property name="enabled" value="true" />
+        <property name="dataSource" ref="configuredPluginsDataSource" />
+        <property name="runSqlScripts" value="true" />
+        <property name="importObjects" value="true" />
+    </bean>
+
+    <!--
+    ===========================================================
+    Environment
+    ============================================================
+    -->
+
+    <!--
+      Singleton maintaining handles to most Spring objects.
+    -->
+    <bean id='environment' class='sailpoint.server.Environment'>
+        <property name='dataSource' ref='configuredDataSource'/>
+        <property name='sessionFactory' ref='sessionFactory'/>
+        <property name='persistenceManager' ref='persistenceManager'/>
+        <property name='ruleRunner' ref='ruleRunner'/>
+        <property name='taskScheduler' ref='quartzStarter'/>
+        <property name='pluginsConfiguration' ref='plugins'/>
+    </bean>
+
+    <!--
+    ===========================================================
+    SailPointContext, SailPointContextFactory
+    ============================================================
+    -->
+ 
+    <!-- 
+      Prototype SailPointContext
+    -->
+    <bean id='internalContext' class='sailpoint.server.InternalContext'>
+        <property name='environment' ref='environment'/>
+    </bean>
+
+    <!-- 
+      Singleton factory for SailPointContexts
+    -->
+    <bean id='sailpointFactory' 
+       class='sailpoint.api.SailPointFactory'
+       factory-method='getFactory'>
+       <property name='contextPrototype' ref='internalContext'/>
+    </bean>
+
+    <!--
+    ===========================================================
+    SystemStarter
+    ============================================================
+    -->
+    
+    <!-- 
+      Class with a dependency on SailPointFactory so we can get 
+      everything wired together before starting certain services
+      with circular dependencies (primarily the task scheduler and
+      request processor).
+
+      Note that it would be best if this were the ONLY thing
+      in our spring files that has an init-method as this is where
+      some crucial bootstrapping happens to load configuration 
+      caches necessary before you start using the SailPointFactory.
+      If you do think you need an init-method it can't assume that
+      SailPointFactory is ready to be used.
+    -->
+    <bean id='systemStarter' class='sailpoint.server.SystemStarter'
+       depends-on='sailpointFactory'
+       init-method='springInit'
+       destroy-method='springDestroy'>
+
+      <property name='environment' ref='environment'/>
+    </bean>
+
+</beans>
