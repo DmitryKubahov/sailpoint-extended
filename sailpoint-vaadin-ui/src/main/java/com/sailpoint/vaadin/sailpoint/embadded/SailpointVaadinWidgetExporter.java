@@ -1,15 +1,18 @@
-package com.sailpoint.vaadin.sailpoint;
+package com.sailpoint.vaadin.sailpoint.embadded;
+
+import com.sailpoint.vaadin.sailpoint.SailpointVaadinWidget;
+import com.sailpoint.vaadin.sailpoint.embadded.SailPointWidgetExporter;
 
 /**
- * The main view contains a button and a click listener.
+ * Vaadin widget component exporter to use it as embedded
  */
-public class MainViewExporter extends SailPointWidgetExporter<MainView> {
+public class SailpointVaadinWidgetExporter extends SailPointWidgetExporter<SailpointVaadinWidget> {
 
     /**
      * Default constructor for setting tag for this element
      */
-    public MainViewExporter() {
-        super("main-view");
+    public SailpointVaadinWidgetExporter() {
+        super("sp-vaadin-widget");
     }
 
     /**
@@ -23,7 +26,7 @@ public class MainViewExporter extends SailPointWidgetExporter<MainView> {
      * @param tag tag name of the web component created by the exporter, cannot
      *            be {@code null}
      */
-    protected MainViewExporter(String tag) {
+    protected SailpointVaadinWidgetExporter(String tag) {
         super(tag);
     }
 }

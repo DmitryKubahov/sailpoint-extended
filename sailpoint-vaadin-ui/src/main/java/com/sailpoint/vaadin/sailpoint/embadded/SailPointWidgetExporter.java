@@ -1,4 +1,4 @@
-package com.sailpoint.vaadin.sailpoint;
+package com.sailpoint.vaadin.sailpoint.embadded;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.WebComponentExporter;

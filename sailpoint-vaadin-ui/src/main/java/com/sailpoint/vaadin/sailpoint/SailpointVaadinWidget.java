@@ -47,15 +47,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Simple test vaadin widget view
+ * Simple sailpoint vaadin widget
  */
 @Slf4j
-public class TestVaadinWidget extends VerticalWidgetLayout {
+public class SailpointVaadinWidget extends VerticalWidgetLayout {
 
-    /**
-     * Carousel component
-     */
-    private final Carousel carousel;
     /**
      * Bar chart component instance
      */
@@ -69,9 +65,9 @@ public class TestVaadinWidget extends VerticalWidgetLayout {
     /**
      * Default constructor when build all components
      */
-    public TestVaadinWidget() {
+    public SailpointVaadinWidget() {
         log.debug("Build main component: carousel");
-        this.carousel = new Carousel();
+        Carousel carousel = new Carousel();
         carousel.setWidth(SailPointVaadinDictionary.WIDGET_WIDTH);
         carousel.setHeight("262px");
         carousel.setSlideDuration(5);
@@ -91,7 +87,7 @@ public class TestVaadinWidget extends VerticalWidgetLayout {
                 new Slide(buildCustomJpaEntityGrid()),
                 new Slide(barChart),
                 new Slide(percentChart),
-
+                new Slide(new ButtomComponent()),
         });
         add(carousel);
 
@@ -144,7 +140,7 @@ public class TestVaadinWidget extends VerticalWidgetLayout {
                             clickEvent.getValue()),
                             3000, Notification.Position.TOP_CENTER);
             this.barChart.updateCharts(generateBarChart());
-            this.barChart.getUI().ifPresent(TestVaadinWidget.this::pushUI);
+            this.barChart.getUI().ifPresent(SailpointVaadinWidget.this::pushUI);
         });
         return chart;
     }
@@ -225,7 +221,7 @@ public class TestVaadinWidget extends VerticalWidgetLayout {
         @Override
         public void run() {
             percentChart.updateCharts(getPercentChart());
-            percentChart.getUI().ifPresent(TestVaadinWidget.this::pushUI);
+            percentChart.getUI().ifPresent(SailpointVaadinWidget.this::pushUI);
         }
     }
 }
