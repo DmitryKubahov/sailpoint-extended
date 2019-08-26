@@ -221,7 +221,12 @@ public class SailpointVaadinWidget extends VerticalWidgetLayout {
         @Override
         public void run() {
             percentChart.updateCharts(getPercentChart());
-            percentChart.getUI().ifPresent(SailpointVaadinWidget.this::pushUI);
+            UI ui = percentChart.getUI().orElse(null);
+            if (ui != null) {
+                SailpointVaadinWidget.this.pushUI(ui);
+            } else {
+                cancel();
+            }
         }
     }
 }
