@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>sailpoint-extension-parent</artifactId>
-        <groupId>com.sailpoint.extension</groupId>
+        <artifactId>sailpoint-extended-parent</artifactId>
+        <groupId>com.sailpoint.extended</groupId>
         <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -19,14 +19,40 @@
         <sailpoint.build.directory.path>/home/kubakhov/IdeaProjects/ssd</sailpoint.build.directory.path>
         <sailpoint.custom.library.directory.path>${sailpoint.build.directory.path}/web/WEB-INF/lib
         </sailpoint.custom.library.directory.path>
-        <sailpoint.classes.directory.path>${sailpoint.build.directory.path}/web/WEB-INF/classes
-        </sailpoint.classes.directory.path>
 
         <!-- Versions properties -->
         <maven.dependency.plugin.version>3.1.1</maven.dependency.plugin.version>
         <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
         <exec.maven.plugin.version>1.6.0</exec.maven.plugin.version>
     </properties>
+
+    <!-- Add all custom dependencies for copy all necessary jars to sailpoint war -->
+    <dependencies>
+        <!-- Sailpoint extended common -->
+        <dependency>
+            <groupId>com.sailpoint.extended</groupId>
+            <artifactId>sailpoint-extended-common</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <!-- Sailpoint extended model -->
+        <dependency>
+            <groupId>com.sailpoint.extended</groupId>
+            <artifactId>sailpoint-extended-model</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <!-- Sailpoint extended vaadin ui -->
+        <dependency>
+            <groupId>com.sailpoint.extended</groupId>
+            <artifactId>sailpoint-vaadin-ui</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <!-- Sailpoint extended  -->
+        <dependency>
+            <groupId>com.sailpoint.extended</groupId>
+            <artifactId>sailpoint-extended</artifactId>
+            <version>${version}</version>
+        </dependency>
+    </dependencies>
 
     <profiles>
         <profile>
@@ -38,6 +64,28 @@
             </activation>
             <build>
                 <plugins>
+                    <plugin>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <version>${maven.clean.plugin.version}</version>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>${sailpoint.custom.library.directory.path}</directory>
+                                    <includes>
+                                        <include>**/*.jar</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>commons-collections4-4.1.jar</exclude>
+                                        <exclude>poi-3.17.jar</exclude>
+                                        <exclude>poi-ooxml-3.17.jar</exclude>
+                                        <exclude>poi-ooxml-schemas-3.17.jar</exclude>
+                                        <exclude>ssb-plugin-importer.jar</exclude>
+                                        <exclude>xmlbeans-2.6.0.jar</exclude>
+                                    </excludes>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </plugin>
                     <!-- Copy all custom libraries:
                             - sail-point-annotation.jar
 
@@ -51,58 +99,23 @@
                                 <id>copy</id>
                                 <phase>package</phase>
                                 <goals>
-                                    <goal>copy</goal>
+                                    <goal>copy-dependencies</goal>
                                 </goals>
                             </execution>
                         </executions>
                         <configuration>
-                            <artifactItems>
-                                <!-- Sailpoint extension jar -->
-                                <artifactItem>
-                                    <groupId>com.sailpoint.extension</groupId>
-                                    <artifactId>sailpoint-extension</artifactId>
-                                    <version>${version}</version>
-                                    <outputDirectory>${sailpoint.custom.library.directory.path}</outputDirectory>
-                                </artifactItem>
-                                <!-- Liquibase additional jar for identityiq -->
-                                <artifactItem>
-                                    <groupId>org.liquibase</groupId>
-                                    <artifactId>liquibase-core</artifactId>
-                                    <version>${liquibase.version}</version>
-                                    <outputDirectory>${sailpoint.custom.library.directory.path}</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
+                            <outputDirectory>${sailpoint.custom.library.directory.path}</outputDirectory>
+                            <includeScope>runtime</includeScope>
+                            <!-- Exclude jars with different versions in indentityiq war -->
+                            <excludeArtifactIds>
+                                commons-io,
+                                commons-lang3,
+                                jackson-annotations,
+                                jackson-core,
+                                jackson-databind,
+                                javax.servlet-api</excludeArtifactIds>
                         </configuration>
                     </plugin>
-
-                    <!-- Copy iiqCustomBeans.xml to web/WEB-INF/classes
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>${maven.resources.plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>copy-resources</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${ssb.classes.path}</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>${basedir}</directory>
-                                            <includes>
-                                                <include>iiqCustomBeans.xml</include>
-                                            </includes>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    -->
-
 
                     <!-- Run ant task for building identityiq.war -->
                     <plugin>
@@ -122,6 +135,7 @@
                                     <executable>ant</executable>
                                     <workingDirectory>${sailpoint.build.directory.path}</workingDirectory>
                                     <arguments>
+                                        <argument>clean</argument>
                                         <argument>main</argument>
                                         <argument>war</argument>
                                     </arguments>
@@ -133,4 +147,5 @@
             </build>
         </profile>
     </profiles>
+
 </project>

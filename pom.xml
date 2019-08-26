@@ -4,31 +4,93 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.sailpoint.extension</groupId>
-    <artifactId>sailpoint-extension-parent</artifactId>
+    <groupId>com.sailpoint.extended</groupId>
+    <artifactId>sailpoint-extended-parent</artifactId>
     <version>0.0.1</version>
     <modules>
-        <module>sailpoint-extension</module>
+        <module>sailpoint-extended-common</module>
+        <module>sailpoint-extended-model</module>
+        <module>sailpoint-vaadin-ui</module>
+        <module>sailpoint-extended</module>
         <module>sailpoint-build</module>
     </modules>
     <packaging>pom</packaging>
 
     <!-- Properties for all modules -->
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <!-- Default sail point target  -->
-        <sailpoint.environment.target>sandbox</sailpoint.environment.target>
+        <sailpoint.environment.target>docker</sailpoint.environment.target>
 
         <!-- Versions properties -->
         <liquibase.version>3.7.0</liquibase.version>
         <spring.version>5.1.5.RELEASE</spring.version>
         <spring.data.jpa.version>1.11.22.RELEASE</spring.data.jpa.version>
+        <jpa.persistance.api.version>2.2</jpa.persistance.api.version>
         <hibernate.version>5.3.7.Final</hibernate.version>
         <lombok.version>1.18.8</lombok.version>
 
+        <!-- Vaadin version -->
+        <vaadin.version>14.0.1</vaadin.version>
+        <chart.java.version>2.5.0</chart.java.version>
+
+        <!-- Identity iq version -->
+        <identityiq.version>8.0</identityiq.version>
+
         <!-- plugins versions -->
         <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
-
+        <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
     </properties>
+
+    <!-- Adding vaadin repositories -->
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <!-- Repository used by many Vaadin add-ons -->
+        <repository>
+            <id>Vaadin Directory</id>
+            <url>https://maven.vaadin.com/vaadin-addons</url>
+        </repository>
+        <!-- Repository needed for the snapshot versions of Vaadin -->
+        <repository>
+            <id>vaadin-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    <!-- Adding plugin vaadin repositories -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <!-- Repository needed for prerelease versions of Vaadin -->
+        <pluginRepository>
+            <id>vaadin-prereleases</id>
+            <url>https://maven.vaadin.com/vaadin-prereleases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>vaadin-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
 
     <!-- Use spring bom to avoid repeat using of version properties-->
     <dependencyManagement>
@@ -40,6 +102,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <type>pom</type>
+                <scope>import</scope>
+                <version>${vaadin.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -47,11 +116,29 @@
     <profiles>
         <profile>
             <!-- Building war of identityIQ for DEV environment -->
-            <id>war_dev</id>
+            <id>war_local</id>
             <properties>
-                <sailpoint.environment.target>sandbox</sailpoint.environment.target>
+                <sailpoint.environment.target>local</sailpoint.environment.target>
             </properties>
         </profile>
     </profiles>
 
+    <!-- Common dependencies for all modules -->
+    <dependencies>
+        <!-- Provided dependencies -->
+        <!-- IdentityIq jar -->
+        <dependency>
+            <groupId>com.sailpoint</groupId>
+            <artifactId>identityiq</artifactId>
+            <version>${identityiq.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Lombok version -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>
