@@ -13,6 +13,7 @@
         <module>sailpoint-vaadin-ui</module>
         <module>sailpoint-extended</module>
         <module>sailpoint-build</module>
+        <module>sailpoint-vaadin-plugin</module>
     </modules>
     <packaging>pom</packaging>
 
