@@ -33,7 +33,7 @@
         <lombok.version>1.18.8</lombok.version>
 
         <!-- Vaadin version -->
-        <vaadin.version>14.0.1</vaadin.version>
+        <vaadin.version>14.0.2</vaadin.version>
         <chart.java.version>2.5.0</chart.java.version>
 
         <!-- Identity iq version -->
