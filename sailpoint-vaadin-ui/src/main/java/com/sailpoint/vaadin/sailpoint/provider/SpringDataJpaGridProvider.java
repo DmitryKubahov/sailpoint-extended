@@ -57,8 +57,6 @@ public class SpringDataJpaGridProvider<T, ID extends Serializable> implements Da
 
     @Override
     public Stream<T> fetch(Query<T, Void> query) {
-        log.error("Offset:[{}]", query.getOffset());
-        log.error("Limit:[{}]", query.getLimit());
         return this.repository.findAll(new PageRequest(query.getOffset() / query.getLimit(), query.getLimit()))
                 .getContent().stream();
     }

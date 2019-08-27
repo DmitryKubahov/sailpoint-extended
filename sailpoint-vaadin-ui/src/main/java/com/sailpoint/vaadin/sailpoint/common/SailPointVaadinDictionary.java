@@ -6,13 +6,18 @@ package com.sailpoint.vaadin.sailpoint.common;
 public final class SailPointVaadinDictionary {
 
     /**
-     * Standard width for widget main layout
+     * Full width for component
      */
-    public static final String WIDGET_WIDTH = "100%";
+    public static final String FULL_WIDTH = "100%";
+
     /**
      * Standard height for widget main layout
      */
     public static final String WIDGET_HEIGHT = "286px";
+    /**
+     * Carousel height for widget
+     */
+    public static final String WIDGET_CAROUSEL_HEIGHT = "262px";
 
     /**
      * Only dictionary

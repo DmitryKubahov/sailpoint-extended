@@ -1,17 +1,17 @@
 package com.sailpoint.vaadin.sailpoint.embadded;
 
-import com.sailpoint.vaadin.sailpoint.SailpointVaadinWidget;
+import com.sailpoint.vaadin.sailpoint.SailpointVaadinPlugin;
 
 /**
- * Vaadin widget component exporter to use it as embedded
+ * Vaadin plugin component exporter to use it as embedded
  */
-public class SailpointVaadinWidgetExporter extends SailPointExporter<SailpointVaadinWidget> {
+public class SailpointVaadinPluginExporter extends SailPointExporter<SailpointVaadinPlugin> {
 
     /**
      * Default constructor for setting tag for this element
      */
-    public SailpointVaadinWidgetExporter() {
-        super("sp-vaadin-widget");
+    public SailpointVaadinPluginExporter() {
+        super("sp-vaadin-plugin");
     }
 
     /**
@@ -25,7 +25,7 @@ public class SailpointVaadinWidgetExporter extends SailPointExporter<SailpointVa
      * @param tag tag name of the web component created by the exporter, cannot
      *            be {@code null}
      */
-    protected SailpointVaadinWidgetExporter(String tag) {
+    protected SailpointVaadinPluginExporter(String tag) {
         super(tag);
     }
 }

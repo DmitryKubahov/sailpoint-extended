@@ -6,10 +6,10 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.webcomponent.WebComponent;
 
 /**
- * Common vaadin sailpoint widget exporter with necessary styles
+ * Common vaadin sailpoint vaadin component exporter with necessary styles
  */
-@CssImport("./styles/widget-style.css")
-public abstract class SailPointWidgetExporter<C extends Component> extends WebComponentExporter<C> {
+@CssImport("./styles/sailpoint-vaadin-style.css")
+public abstract class SailPointExporter<C extends Component> extends WebComponentExporter<C> {
 
     /**
      * Creates a new {@code WebComponentExporter} instance and configures the
@@ -22,7 +22,7 @@ public abstract class SailPointWidgetExporter<C extends Component> extends WebCo
      * @param tag tag name of the web component created by the exporter, cannot
      *            be {@code null}
      */
-    protected SailPointWidgetExporter(String tag) {
+    protected SailPointExporter(String tag) {
         super(tag);
     }
 

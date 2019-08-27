@@ -18,6 +18,7 @@ import be.ceau.chart.options.scales.XAxis;
 import be.ceau.chart.options.scales.YAxis;
 import be.ceau.chart.options.ticks.LinearTicks;
 import com.sailpoint.extended.model.jpa.entity.CustomEntityJpa;
+import com.sailpoint.extended.model.jpa.entity.CustomEntityJpa_;
 import com.sailpoint.extended.model.jpa.repository.CustomEntityJpaRepository;
 import com.sailpoint.extended.spring.SpringContextProvider;
 import com.sailpoint.vaadin.component.carousel.Carousel;
@@ -29,7 +30,6 @@ import com.sailpoint.vaadin.sailpoint.common.VerticalWidgetLayout;
 import com.sailpoint.vaadin.sailpoint.provider.SailPointObjectDataProvider;
 import com.sailpoint.vaadin.sailpoint.provider.SpringDataJpaGridProvider;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
@@ -47,7 +47,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Simple sailpoint vaadin widget
+ * Simple sailpoint vaadin widget vies
  */
 @Slf4j
 public class SailpointVaadinWidget extends VerticalWidgetLayout {
@@ -68,8 +68,8 @@ public class SailpointVaadinWidget extends VerticalWidgetLayout {
     public SailpointVaadinWidget() {
         log.debug("Build main component: carousel");
         Carousel carousel = new Carousel();
-        carousel.setWidth(SailPointVaadinDictionary.WIDGET_WIDTH);
-        carousel.setHeight("262px");
+        carousel.setWidth(SailPointVaadinDictionary.FULL_WIDTH);
+        carousel.setHeight(SailPointVaadinDictionary.WIDGET_CAROUSEL_HEIGHT);
         carousel.setSlideDuration(5);
 
         log.debug("Build component: bar chart");
@@ -77,7 +77,7 @@ public class SailpointVaadinWidget extends VerticalWidgetLayout {
         barChart.setHeight(carousel.getHeight());
 
         log.debug("Build component: percent chart");
-        this.percentChart = new ChartJs(getPercentChart());
+        this.percentChart = new ChartJs(getPercentChart(false));
         percentChart.setHeight(carousel.getHeight());
 
         log.debug("Add slides to carousel");
@@ -92,8 +92,50 @@ public class SailpointVaadinWidget extends VerticalWidgetLayout {
         add(carousel);
 
         log.debug("Schedule updater for percent charts");
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new Updater(), 0, 1000);
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                percentChart.updateCharts(getPercentChart(false));
+                getUI().ifPresent(ui -> ui.access(ui::push));
+            }
+        }, 0, 1000);
+    }
+
+    /**
+     * Build percent chart component
+     *
+     * @param aspectRation - aspect ration chart ration parameter value
+     * @return percent chart component
+     */
+    static DoughnutChart getPercentChart(boolean aspectRation) {
+        DoughnutOptions options = new DoughnutOptions();
+        options.setRotation(BigDecimal.valueOf(1 * Math.PI)).setCircumference(BigDecimal.valueOf(1 * Math.PI))
+                .setLegend(new Legend().setDisplay(false)).setResponsive(true).setMaintainAspectRatio(aspectRation)
+                .setAnimation(new DoughnutAnimation().setDuration(0));
+        DoughnutData doughnutData = new DoughnutData();
+        int max = 100;
+        int cpu = new Random().nextInt(100);
+        options.setTitle(new Title().setText(String.format("CPU %d%%", cpu)).setDisplay(true));
+        doughnutData.setLabels("CPU", "idle");
+        doughnutData.addDataset(new DoughnutDataset().addData(cpu).addData(max - cpu)
+                .setBackgroundColor(Arrays.asList(Color.GREEN, Color.GRAY)));
+        return new DoughnutChart(doughnutData, options);
+    }
+
+    /**
+     * Build grid for custom jpa entity
+     *
+     * @return grid for custom jpa entity
+     */
+    static Grid<CustomEntityJpa> buildCustomJpaEntityGrid() {
+        Grid<CustomEntityJpa> customEntityJpaGrid = new Grid<>(CustomEntityJpa.class);
+        customEntityJpaGrid.setColumns(CustomEntityJpa_.ID, CustomEntityJpa_.NAME);
+        customEntityJpaGrid.setDataProvider(new SpringDataJpaGridProvider(
+                SpringContextProvider.getApplicationContext().getBean(CustomEntityJpaRepository.class)));
+        customEntityJpaGrid.addColumn(
+                new LocalDateTimeRenderer<>(CustomEntityJpa::getDateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE));
+        customEntityJpaGrid.setSizeFull();
+        return customEntityJpaGrid;
     }
 
     /**
@@ -112,22 +154,6 @@ public class SailpointVaadinWidget extends VerticalWidgetLayout {
     }
 
     /**
-     * Build grid for custom jpa entity
-     *
-     * @return grid for custom jpa entity
-     */
-    private Grid<CustomEntityJpa> buildCustomJpaEntityGrid() {
-        Grid<CustomEntityJpa> customEntityJpaGrid = new Grid<>(CustomEntityJpa.class);
-        customEntityJpaGrid.setColumns("id", "name");
-        customEntityJpaGrid.setDataProvider(new SpringDataJpaGridProvider(
-                SpringContextProvider.getApplicationContext().getBean(CustomEntityJpaRepository.class)));
-        customEntityJpaGrid.addColumn(
-                new LocalDateTimeRenderer<>(CustomEntityJpa::getDateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE));
-        customEntityJpaGrid.setSizeFull();
-        return customEntityJpaGrid;
-    }
-
-    /**
      * Build bar chart component
      *
      * @return bar chart component
@@ -140,29 +166,9 @@ public class SailpointVaadinWidget extends VerticalWidgetLayout {
                             clickEvent.getValue()),
                             3000, Notification.Position.TOP_CENTER);
             this.barChart.updateCharts(generateBarChart());
-            this.barChart.getUI().ifPresent(SailpointVaadinWidget.this::pushUI);
+            this.barChart.getUI().ifPresent(ui -> ui.access(ui::push));
         });
         return chart;
-    }
-
-    /**
-     * Build percent chart component
-     *
-     * @return percent chart component
-     */
-    private Chart getPercentChart() {
-        DoughnutOptions options = new DoughnutOptions();
-        options.setRotation(BigDecimal.valueOf(1 * Math.PI)).setCircumference(BigDecimal.valueOf(1 * Math.PI))
-                .setLegend(new Legend().setDisplay(false)).setResponsive(true).setMaintainAspectRatio(false)
-                .setAnimation(new DoughnutAnimation().setDuration(0));
-        DoughnutData doughnutData = new DoughnutData();
-        int max = 100;
-        int cpu = new Random().nextInt(100);
-        options.setTitle(new Title().setText(String.format("CPU %d%%", cpu)).setDisplay(true));
-        doughnutData.setLabels("CPU", "idle");
-        doughnutData.addDataset(new DoughnutDataset().addData(cpu).addData(max - cpu)
-                .setBackgroundColor(Arrays.asList(Color.GREEN, Color.GRAY)));
-        return new DoughnutChart(doughnutData, options);
     }
 
     /**
@@ -199,34 +205,5 @@ public class SailpointVaadinWidget extends VerticalWidgetLayout {
         BarDataset result = new BarDataset().addBackgroundColor(color).setLabel(label);
         data.forEach(barLabel -> result.addData(random.nextInt(1000)));
         return result;
-    }
-
-    /**
-     * Push changed to UI
-     *
-     * @param ui - current ui
-     */
-    private void pushUI(UI ui) {
-        ui.access(ui::push);
-    }
-
-    /**
-     * Internal class for updating percent chart
-     */
-    private class Updater extends TimerTask {
-
-        /**
-         * Update percent data char
-         */
-        @Override
-        public void run() {
-            percentChart.updateCharts(getPercentChart());
-            UI ui = percentChart.getUI().orElse(null);
-            if (ui != null) {
-                SailpointVaadinWidget.this.pushUI(ui);
-            } else {
-                cancel();
-            }
-        }
     }
 }

@@ -6,7 +6,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
  * Vertical layout for widget.
  * Sets:
  * height : {@link SailPointVaadinDictionary#WIDGET_HEIGHT}
- * width : {@link SailPointVaadinDictionary#WIDGET_WIDTH}
+ * width : {@link SailPointVaadinDictionary#FULL_WIDTH}
  */
 public class VerticalWidgetLayout extends VerticalLayout {
 
@@ -15,6 +15,6 @@ public class VerticalWidgetLayout extends VerticalLayout {
      */
     public VerticalWidgetLayout() {
         setHeight(SailPointVaadinDictionary.WIDGET_HEIGHT);
-        setWidth(SailPointVaadinDictionary.WIDGET_WIDTH);
+        setWidth(SailPointVaadinDictionary.FULL_WIDTH);
     }
 }
