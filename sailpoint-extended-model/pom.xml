@@ -26,14 +26,12 @@
             <groupId>javax.persistence</groupId>
             <artifactId>javax.persistence-api</artifactId>
             <version>${jpa.persistance.api.version}</version>
-            <scope>compile</scope>
         </dependency>
         <!-- Spring-data-jpa -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring.data.jpa.version}</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

@@ -46,6 +46,12 @@
             <artifactId>sailpoint-vaadin-ui</artifactId>
             <version>${version}</version>
         </dependency>
+        <!-- Sailpoint extended rest -->
+        <dependency>
+            <groupId>com.sailpoint.extended</groupId>
+            <artifactId>sailpoint-extended-rest</artifactId>
+            <version>${version}</version>
+        </dependency>
         <!-- Sailpoint extended  -->
         <dependency>
             <groupId>com.sailpoint.extended</groupId>
@@ -113,7 +119,9 @@
                                 jackson-annotations,
                                 jackson-core,
                                 jackson-databind,
-                                javax.servlet-api</excludeArtifactIds>
+                                javax.servlet-api,
+                                byte-buddy
+                            </excludeArtifactIds>
                         </configuration>
                     </plugin>
 

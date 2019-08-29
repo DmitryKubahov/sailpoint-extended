@@ -117,6 +117,12 @@
             <artifactId>sailpoint-extended-model</artifactId>
             <version>${version}</version>
         </dependency>
+        <!-- Sailpoint extended rest -->
+        <dependency>
+            <groupId>com.sailpoint.extended</groupId>
+            <artifactId>sailpoint-extended-rest</artifactId>
+            <version>${version}</version>
+        </dependency>
         <!-- Sailpoint vaadin ui -->
         <dependency>
             <groupId>com.sailpoint.extended</groupId>
