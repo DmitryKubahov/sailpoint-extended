@@ -2,6 +2,7 @@ package com.sailpoint.extended.config.rest;
 
 import com.sailpoint.extended.controller.CustomRestController;
 import lombok.extern.slf4j.Slf4j;
+import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.servlet.ServletProperties;
 import org.springframework.web.WebApplicationInitializer;
 
@@ -36,7 +37,7 @@ public class SailPointExternalRestWebApplicationInitializer implements WebApplic
             log.error("Could not find external servlet registration. External api will not work!!!!");
             return;
         }
-        registration.setInitParameter("jersey.config.server.provider.packages",
+        registration.setInitParameter(ServerProperties.PROVIDER_PACKAGES,
                 CustomRestController.class.getPackage().getName());
     }
 }
