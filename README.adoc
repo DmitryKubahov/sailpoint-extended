@@ -19,3 +19,17 @@ Main properties:
 
 . *sailpoint.environment.target* - sailpoint build environment value.
 . *sailpoint.build.directory.path* - absolute path to SSD.
+
+== Building
+Before building project install:
+
+. nodejs 10+
+. npm
+
+This is very important for using Vaadin UI.
+
+Command:
+----
+mvn clean install -Dsailpoint
+----
+Where "-Dsailpoint" enable building identityiq.war
