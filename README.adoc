@@ -6,8 +6,8 @@
 Contains features for extending IdentityIQ 8.0
 
 == Structure
-. *sailpoint-build* - module for starting build command in ssd.
-. *sailpoint-extended* - main module for extending. Contains all configurations.
+. *sailpoint-build* - module without code. Uses for managing building process of IdentityIQ via SSD.
+. *sailpoint-extended* - main module for extending. Contains spring configurations.
 . *sailpoint-extended-common* - common module for all features. Contains common stuff like: mappers, spring context provider, etc.
 . *sailpoint-extended-model* - contains custom model entities and repositories.
 . *sailpoint-extended-rest* - contains custom rest controller, mapper and entity for it.
