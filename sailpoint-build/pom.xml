@@ -92,10 +92,7 @@
                             </filesets>
                         </configuration>
                     </plugin>
-                    <!-- Copy all custom libraries:
-                            - sail-point-annotation.jar
-
-                         to custom jar folder (ssb/web/WEB_INF/lib) to include them to war -->
+                    <!-- Copy all custom libraries and nested dependencies to custom jar folder (ssb/web/WEB_INF/lib) to include them to war -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
@@ -155,5 +152,4 @@
             </build>
         </profile>
     </profiles>
-
 </project>
