@@ -45,8 +45,8 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="description" type="varchar2(1024)"/>
-            <column name="protected" type="number(1,0)"/>
-            <column name="needs_refresh" type="number(1,0)"/>
+            <column name="protected" type="boolean"/>
+            <column name="needs_refresh" type="boolean"/>
             <column name="iiqlock" type="varchar2(128)"/>
             <column name="attributes" type="clob"/>
             <column name="manager" type="varchar2(32)"/>
@@ -54,8 +54,8 @@
             <column name="firstname" type="varchar2(128)"/>
             <column name="lastname" type="varchar2(128)"/>
             <column name="email" type="varchar2(128)"/>
-            <column name="manager_status" type="number(1,0)"/>
-            <column name="inactive" type="number(1,0)"/>
+            <column name="manager_status" type="boolean"/>
+            <column name="inactive" type="boolean"/>
             <column name="last_login" type="number(19,0)"/>
             <column name="last_refresh" type="number(19,0)"/>
             <column name="PASSWORD" type="varchar2(450)"/>
@@ -63,22 +63,22 @@
             <column name="password_history" type="varchar2(2000)"/>
             <column name="bundle_summary" type="varchar2(2000)"/>
             <column name="assigned_role_summary" type="varchar2(2000)"/>
-            <column name="correlated" type="number(1,0)"/>
-            <column name="correlated_overridden" type="number(1,0)"/>
+            <column name="correlated" type="boolean"/>
+            <column name="correlated_overridden" type="boolean"/>
             <column name="type" type="varchar2(128)"/>
             <column name="software_version" type="varchar2(128)"/>
             <column name="administrator" type="varchar2(32)"/>
             <column name="auth_lock_start" type="number(19,0)"/>
             <column name="failed_auth_question_attempts" type="number(10,0)"/>
             <column name="failed_login_attempts" type="number(10,0)"/>
-            <column name="controls_assigned_scope" type="number(1,0)"/>
+            <column name="controls_assigned_scope" type="boolean"/>
             <column name="certifications" type="clob"/>
             <column name="activity_config" type="clob"/>
             <column name="preferences" type="clob"/>
             <column name="scorecard" type="varchar2(32)"/>
             <column name="uipreferences" type="varchar2(32)"/>
             <column name="attribute_meta_data" type="clob"/>
-            <column name="workgroup" type="number(1,0)"/>
+            <column name="workgroup" type="boolean"/>
         </createTable>
     </changeSet>
     <!-- Not for oracle -->
@@ -121,8 +121,8 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="description" type="varchar2(1024)"/>
-            <column name="protected" type="number(1,0)"/>
-            <column name="needs_refresh" type="number(1,0)"/>
+            <column name="protected" type="boolean"/>
+            <column name="needs_refresh" type="boolean"/>
             <column name="iiqlock" type="varchar2(128)"/>
             <column name="attributes" type="clob"/>
             <column name="manager" type="varchar2(32)"/>
@@ -130,8 +130,8 @@
             <column name="firstname" type="varchar2(128)"/>
             <column name="lastname" type="varchar2(128)"/>
             <column name="email" type="varchar2(128)"/>
-            <column name="manager_status" type="number(1,0)"/>
-            <column name="inactive" type="number(1,0)"/>
+            <column name="manager_status" type="boolean"/>
+            <column name="inactive" type="boolean"/>
             <column name="last_login" type="number(19,0)"/>
             <column name="last_refresh" type="number(19,0)"/>
             <column name="password" type="varchar2(450)"/>
@@ -139,22 +139,22 @@
             <column name="password_history" type="varchar2(2000)"/>
             <column name="bundle_summary" type="varchar2(2000)"/>
             <column name="assigned_role_summary" type="varchar2(2000)"/>
-            <column name="correlated" type="number(1,0)"/>
-            <column name="correlated_overridden" type="number(1,0)"/>
+            <column name="correlated" type="boolean"/>
+            <column name="correlated_overridden" type="boolean"/>
             <column name="type" type="varchar2(128)"/>
             <column name="software_version" type="varchar2(128)"/>
             <column name="administrator" type="varchar2(32)"/>
             <column name="auth_lock_start" type="number(19,0)"/>
             <column name="failed_auth_question_attempts" type="number(10,0)"/>
             <column name="failed_login_attempts" type="number(10,0)"/>
-            <column name="controls_assigned_scope" type="number(1,0)"/>
+            <column name="controls_assigned_scope" type="boolean"/>
             <column name="certifications" type="clob"/>
             <column name="activity_config" type="clob"/>
             <column name="preferences" type="clob"/>
             <column name="scorecard" type="varchar2(32)"/>
             <column name="uipreferences" type="varchar2(32)"/>
             <column name="attribute_meta_data" type="clob"/>
-            <column name="workgroup" type="number(1,0)"/>
+            <column name="workgroup" type="boolean"/>
         </createTable>
     </changeSet>
 
@@ -181,7 +181,7 @@
             <column name="member_attribute" type="varchar2(128)"/>
             <column name="last_refresh" type="number(19,0)"/>
             <column name="last_target_aggregation" type="number(19,0)"/>
-            <column name="uncorrelated" type="number(1,0)"/>
+            <column name="uncorrelated" type="boolean"/>
             <column name="application" type="varchar2(32)"/>
             <column name="attributes" type="clob"/>
             <column name="key1" type="varchar2(128)"/>
@@ -242,7 +242,7 @@
             <column name="violation_owner" type="varchar2(32)"/>
             <column name="violation_owner_rule" type="varchar2(32)"/>
             <column name="compensating_control" type="clob"/>
-            <column name="disabled" type="number(1,0)"/>
+            <column name="disabled" type="boolean"/>
             <column name="weight" type="number(10,0)"/>
             <column name="remediation_advice" type="clob"/>
             <column name="violation_summary" type="clob"/>
@@ -331,7 +331,7 @@
             <column name="assigned_scope" type="varchar2(32)"/>
             <column name="assigned_scope_path" type="varchar2(450)"/>
             <column name="match_config" type="clob"/>
-            <column name="disabled" type="number(1,0)"/>
+            <column name="disabled" type="boolean"/>
             <column name="name" type="varchar2(128)">
                 <constraints nullable="false"/>
             </column>
@@ -388,22 +388,22 @@
             <column name="features_string" type="varchar2(512)"/>
             <column name="aggregation_types" type="varchar2(128)"/>
             <column name="profile_class" type="varchar2(255)"/>
-            <column name="authentication_resource" type="number(1,0)"/>
-            <column name="case_insensitive" type="number(1,0)"/>
-            <column name="authoritative" type="number(1,0)"/>
+            <column name="authentication_resource" type="boolean"/>
+            <column name="case_insensitive" type="boolean"/>
+            <column name="authoritative" type="boolean"/>
             <column name="maintenance_expiration" type="number(19,0)"/>
-            <column name="logical" type="number(1,0)"/>
-            <column name="supports_provisioning" type="number(1,0)"/>
-            <column name="supports_authenticate" type="number(1,0)"/>
-            <column name="supports_account_only" type="number(1,0)"/>
-            <column name="supports_additional_accounts" type="number(1,0)"/>
-            <column name="no_aggregation" type="number(1,0)"/>
-            <column name="sync_provisioning" type="number(1,0)"/>
+            <column name="logical" type="boolean"/>
+            <column name="supports_provisioning" type="boolean"/>
+            <column name="supports_authenticate" type="boolean"/>
+            <column name="supports_account_only" type="boolean"/>
+            <column name="supports_additional_accounts" type="boolean"/>
+            <column name="no_aggregation" type="boolean"/>
+            <column name="sync_provisioning" type="boolean"/>
             <column name="attributes" type="clob"/>
             <column name="templates" type="clob"/>
             <column name="provisioning_forms" type="clob"/>
             <column name="provisioning_config" type="clob"/>
-            <column name="manages_other_apps" type="number(1,0)">
+            <column name="manages_other_apps" type="boolean">
                 <constraints nullable="false"/>
             </column>
             <column name="proxy" type="varchar2(32)"/>
@@ -467,9 +467,9 @@
             <column name="group_attribute" type="varchar2(255)"/>
             <column name="hierarchy_attribute" type="varchar2(255)"/>
             <column name="reference_attribute" type="varchar2(255)"/>
-            <column name="include_permissions" type="number(1,0)"/>
-            <column name="index_permissions" type="number(1,0)"/>
-            <column name="child_hierarchy" type="number(1,0)"/>
+            <column name="include_permissions" type="boolean"/>
+            <column name="index_permissions" type="boolean"/>
+            <column name="child_hierarchy" type="boolean"/>
             <column name="perm_remed_mod_type" type="varchar2(255)"/>
             <column name="config" type="clob"/>
             <column name="features_string" type="varchar2(512)"/>
@@ -491,7 +491,7 @@
             <column name="owner" type="varchar2(32)"/>
             <column name="assigned_scope" type="varchar2(32)"/>
             <column name="assigned_scope_path" type="varchar2(450)"/>
-            <column name="incomplete" type="number(1,0)"/>
+            <column name="incomplete" type="boolean"/>
             <column name="composite_score" type="number(10,0)"/>
             <column name="attributes" type="clob"/>
             <column name="items" type="clob"/>
@@ -574,7 +574,7 @@
             <column name="name" type="varchar2(128)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="disabled" type="number(1,0)"/>
+            <column name="disabled" type="boolean"/>
             <column name="classes" type="clob"/>
             <column name="resources" type="clob"/>
             <column name="attributes" type="clob"/>
@@ -696,7 +696,7 @@
             </column>
             <column name="display_name" type="varchar2(128)"/>
             <column name="displayable_name" type="varchar2(128)"/>
-            <column name="disabled" type="number(1,0)"/>
+            <column name="disabled" type="boolean"/>
             <column name="risk_score_weight" type="number(10,0)"/>
             <column name="activity_config" type="clob"/>
             <column name="mining_statistics" type="clob"/>
@@ -709,11 +709,11 @@
             <column name="provisioning_plan" type="clob"/>
             <column name="templates" type="clob"/>
             <column name="provisioning_forms" type="clob"/>
-            <column name="or_profiles" type="number(1,0)"/>
+            <column name="or_profiles" type="boolean"/>
             <column name="activation_date" type="number(19,0)"/>
             <column name="deactivation_date" type="number(19,0)"/>
             <column name="scorecard" type="varchar2(32)"/>
-            <column name="pending_delete" type="number(1,0)"/>
+            <column name="pending_delete" type="boolean"/>
         </createTable>
 
         <createTable tableName="spt_bundle_archive">
@@ -782,7 +782,7 @@
             </column>
             <column name="description" type="varchar2(1024)"/>
             <column name="display_name" type="varchar2(128)"/>
-            <column name="applies_to_analyzer" type="number(1,0)"/>
+            <column name="applies_to_analyzer" type="boolean"/>
         </createTable>
 
         <createTable tableName="spt_capability_children">
@@ -861,8 +861,8 @@
             <column name="short_name" type="varchar2(255)"/>
             <column name="description" type="varchar2(1024)"/>
             <column name="creator" type="varchar2(255)"/>
-            <column name="complete" type="number(1,0)"/>
-            <column name="complete_hierarchy" type="number(1,0)"/>
+            <column name="complete" type="boolean"/>
+            <column name="complete_hierarchy" type="boolean"/>
             <column name="signed" type="number(19,0)"/>
             <column name="approver_rule" type="varchar2(512)"/>
             <column name="finished" type="number(19,0)"/>
@@ -1023,19 +1023,19 @@
             <column name="phase" type="varchar2(255)"/>
             <column name="next_phase_transition" type="number(19,0)"/>
             <column name="phase_config" type="clob"/>
-            <column name="process_revokes_immediately" type="number(1,0)"/>
+            <column name="process_revokes_immediately" type="boolean"/>
             <column name="next_remediation_scan" type="number(19,0)"/>
             <column name="entitlement_granularity" type="varchar2(255)"/>
-            <column name="bulk_reassignment" type="number(1,0)"/>
-            <column name="continuous" type="number(1,0)"/>
+            <column name="bulk_reassignment" type="boolean"/>
+            <column name="continuous" type="boolean"/>
             <column name="continuous_config" type="clob"/>
             <column name="next_cert_required_scan" type="number(19,0)"/>
             <column name="next_overdue_scan" type="number(19,0)"/>
-            <column name="exclude_inactive" type="number(1,0)"/>
+            <column name="exclude_inactive" type="boolean"/>
             <column name="parent" type="varchar2(32)"/>
-            <column name="immutable" type="number(1,0)"/>
-            <column name="electronically_signed" type="number(1,0)"/>
-            <column name="self_cert_reassignment" type="number(1,0)"/>
+            <column name="immutable" type="boolean"/>
+            <column name="electronically_signed" type="boolean"/>
+            <column name="self_cert_reassignment" type="boolean"/>
             <column name="idx" type="number(10,0)"/>
         </createTable>
 
@@ -1063,16 +1063,16 @@
             <column name="status" type="varchar2(255)"/>
             <column name="decision_date" type="number(19,0)"/>
             <column name="decision_certification_id" type="varchar2(128)"/>
-            <column name="reviewed" type="number(1,0)"/>
-            <column name="bulk_certified" type="number(1,0)"/>
+            <column name="reviewed" type="boolean"/>
+            <column name="bulk_certified" type="boolean"/>
             <column name="mitigation_expiration" type="number(19,0)"/>
             <column name="remediation_action" type="varchar2(255)"/>
             <column name="remediation_details" type="clob"/>
             <column name="additional_actions" type="clob"/>
-            <column name="revoke_account" type="number(1,0)"/>
-            <column name="ready_for_remediation" type="number(1,0)"/>
-            <column name="remediation_kicked_off" type="number(1,0)"/>
-            <column name="remediation_completed" type="number(1,0)"/>
+            <column name="revoke_account" type="boolean"/>
+            <column name="ready_for_remediation" type="boolean"/>
+            <column name="remediation_kicked_off" type="boolean"/>
+            <column name="remediation_completed" type="boolean"/>
             <column name="source_action" type="varchar2(32)"/>
         </createTable>
 
@@ -1093,7 +1093,7 @@
             <column name="creator" type="varchar2(128)"/>
             <column name="comments" type="clob"/>
             <column name="archive" type="clob"/>
-            <column name="immutable" type="number(1,0)"/>
+            <column name="immutable" type="boolean"/>
         </createTable>
 
         <createTable tableName="spt_certification_challenge">
@@ -1117,11 +1117,11 @@
             <column name="actor_display_name" type="varchar2(128)"/>
             <column name="acting_work_item" type="varchar2(255)"/>
             <column name="description" type="varchar2(1024)"/>
-            <column name="challenged" type="number(1,0)"/>
+            <column name="challenged" type="boolean"/>
             <column name="decision" type="varchar2(255)"/>
             <column name="decision_comments" type="clob"/>
             <column name="decider_name" type="varchar2(255)"/>
-            <column name="challenge_decision_expired" type="number(1,0)"/>
+            <column name="challenge_decision_expired" type="boolean"/>
         </createTable>
 
         <createTable tableName="spt_certification_def_tags">
@@ -1173,8 +1173,8 @@
             <column name="actor_display_name" type="varchar2(128)"/>
             <column name="acting_work_item" type="varchar2(255)"/>
             <column name="description" type="varchar2(1024)"/>
-            <column name="review_required" type="number(1,0)"/>
-            <column name="revoked" type="number(1,0)"/>
+            <column name="review_required" type="boolean"/>
+            <column name="revoked" type="boolean"/>
         </createTable>
 
         <createTable tableName="spt_certification_entity">
@@ -1194,8 +1194,8 @@
             <column name="last_decision" type="number(19,0)"/>
             <column name="next_continuous_state_change" type="number(19,0)"/>
             <column name="overdue_date" type="number(19,0)"/>
-            <column name="has_differences" type="number(1,0)"/>
-            <column name="action_required" type="number(1,0)"/>
+            <column name="has_differences" type="boolean"/>
+            <column name="action_required" type="boolean"/>
             <column name="target_display_name" type="varchar2(255)"/>
             <column name="target_name" type="varchar2(255)"/>
             <column name="target_id" type="varchar2(255)"/>
@@ -1203,7 +1203,7 @@
             <column name="custom2" type="varchar2(450)"/>
             <column name="custom_map" type="clob"/>
             <column name="type" type="varchar2(255)"/>
-            <column name="bulk_certified" type="number(1,0)"/>
+            <column name="bulk_certified" type="boolean"/>
             <column name="attributes" type="clob"/>
             <column name="identity_id" type="varchar2(450)"/>
             <column name="firstname" type="varchar2(255)"/>
@@ -1211,7 +1211,7 @@
             <column name="composite_score" type="number(10,0)"/>
             <column name="snapshot_id" type="varchar2(255)"/>
             <column name="differences" type="clob"/>
-            <column name="new_user" type="number(1,0)"/>
+            <column name="new_user" type="boolean"/>
             <column name="account_group" type="varchar2(450)"/>
             <column name="application" type="varchar2(255)"/>
             <column name="native_identity" type="varchar2(322)"/>
@@ -1270,8 +1270,8 @@
             <column name="last_decision" type="number(19,0)"/>
             <column name="next_continuous_state_change" type="number(19,0)"/>
             <column name="overdue_date" type="number(19,0)"/>
-            <column name="has_differences" type="number(1,0)"/>
-            <column name="action_required" type="number(1,0)"/>
+            <column name="has_differences" type="boolean"/>
+            <column name="action_required" type="boolean"/>
             <column name="target_display_name" type="varchar2(255)"/>
             <column name="target_name" type="varchar2(255)"/>
             <column name="target_id" type="varchar2(255)"/>
@@ -1284,7 +1284,7 @@
             <column name="bundle_assignment_id" type="varchar2(128)"/>
             <column name="certification_entity_id" type="varchar2(32)"/>
             <column name="exception_entitlements" type="varchar2(32)"/>
-            <column name="needs_refresh" type="number(1,0)"/>
+            <column name="needs_refresh" type="boolean"/>
             <column name="exception_application" type="varchar2(128)"/>
             <column name="exception_attribute_name" type="varchar2(255)"/>
             <column name="exception_attribute_value" type="varchar2(2048)"/>
@@ -1295,7 +1295,7 @@
             <column name="challenge" type="varchar2(32)"/>
             <column name="wake_up_date" type="number(19,0)"/>
             <column name="reminders_sent" type="number(10,0)"/>
-            <column name="needs_continuous_flush" type="number(1,0)"/>
+            <column name="needs_continuous_flush" type="boolean"/>
             <column name="phase" type="varchar2(255)"/>
             <column name="next_phase_transition" type="number(19,0)"/>
             <column name="finished_date" type="number(19,0)"/>
@@ -1474,7 +1474,7 @@
             </column>
             <column name="description" type="varchar2(1024)"/>
             <column name="selector" type="clob"/>
-            <column name="allow_all" type="number(1,0)"/>
+            <column name="allow_all" type="boolean"/>
             <column name="population_request_authority" type="clob"/>
             <column name="role_request_control" type="varchar2(32)"/>
             <column name="application_request_control" type="varchar2(32)"/>
@@ -1551,7 +1551,7 @@
             <column name="instance" type="varchar2(128)"/>
             <column name="native_identity" type="varchar2(322)"/>
             <column name="display_name" type="varchar2(128)"/>
-            <column name="account_only" type="number(1,0)">
+            <column name="account_only" type="boolean">
                 <constraints nullable="false"/>
             </column>
             <column name="attributes" type="clob"/>
@@ -1567,7 +1567,7 @@
             <column name="instance" type="varchar2(128)"/>
             <column name="native_identity" type="varchar2(322)"/>
             <column name="display_name" type="varchar2(450)"/>
-            <column name="account_only" type="number(1,0)">
+            <column name="account_only" type="boolean">
                 <constraints nullable="false"/>
             </column>
             <column name="attributes" type="clob"/>
@@ -1602,7 +1602,7 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="description" type="varchar2(4000)"/>
-            <column name="hidden" type="number(1,0)"/>
+            <column name="hidden" type="boolean"/>
             <column name="type" type="varchar2(255)"/>
             <column name="application" type="varchar2(32)"/>
             <column name="sections" type="clob"/>
@@ -1641,7 +1641,7 @@
             <column name="violation_owner" type="varchar2(32)"/>
             <column name="violation_owner_rule" type="varchar2(32)"/>
             <column name="compensating_control" type="clob"/>
-            <column name="disabled" type="number(1,0)"/>
+            <column name="disabled" type="boolean"/>
             <column name="weight" type="number(10,0)"/>
             <column name="remediation_advice" type="clob"/>
             <column name="violation_summary" type="clob"/>
@@ -1663,9 +1663,9 @@
             <column name="description" type="varchar2(1024)"/>
             <column name="filter" type="clob"/>
             <column name="last_refresh" type="number(19,0)"/>
-            <column name="null_group" type="number(1,0)"/>
-            <column name="indexed" type="number(1,0)"/>
-            <column name="private" type="number(1,0)"/>
+            <column name="null_group" type="boolean"/>
+            <column name="indexed" type="boolean"/>
+            <column name="private" type="boolean"/>
             <column name="factory" type="varchar2(32)"/>
             <column name="group_index" type="varchar2(32)"/>
         </createTable>
@@ -1682,7 +1682,7 @@
             <column name="name" type="varchar2(255)"/>
             <column name="description" type="varchar2(1024)"/>
             <column name="factory_attribute" type="varchar2(255)"/>
-            <column name="enabled" type="number(1,0)"/>
+            <column name="enabled" type="boolean"/>
             <column name="last_refresh" type="number(19,0)"/>
             <column name="group_owner_rule" type="varchar2(32)"/>
         </createTable>
@@ -1696,7 +1696,7 @@
             <column name="owner" type="varchar2(32)"/>
             <column name="assigned_scope" type="varchar2(32)"/>
             <column name="assigned_scope_path" type="varchar2(450)"/>
-            <column name="incomplete" type="number(1,0)"/>
+            <column name="incomplete" type="boolean"/>
             <column name="composite_score" type="number(10,0)"/>
             <column name="attributes" type="clob"/>
             <column name="items" type="clob"/>
@@ -1829,9 +1829,9 @@
             </column>
             <column name="aggregation_state" type="varchar2(255)"/>
             <column name="source" type="varchar2(64)"/>
-            <column name="assigned" type="number(1,0)"/>
-            <column name="allowed" type="number(1,0)"/>
-            <column name="granted_by_role" type="number(1,0)"/>
+            <column name="assigned" type="boolean"/>
+            <column name="allowed" type="boolean"/>
+            <column name="granted_by_role" type="boolean"/>
             <column name="assigner" type="varchar2(128)"/>
             <column name="assignment_id" type="varchar2(64)"/>
             <column name="assignment_note" type="varchar2(1024)"/>
@@ -1902,7 +1902,7 @@
             <column name="priority" type="varchar2(128)"/>
             <column name="completion_status" type="varchar2(128)"/>
             <column name="execution_status" type="varchar2(128)"/>
-            <column name="has_messages" type="number(1,0)">
+            <column name="has_messages" type="boolean">
                 <constraints nullable="false"/>
             </column>
             <column name="external_ticket_id" type="varchar2(128)"/>
@@ -1986,7 +1986,7 @@
             <column name="assigned_scope_path" type="varchar2(450)"/>
             <column name="name" type="varchar2(256)"/>
             <column name="description" type="varchar2(1024)"/>
-            <column name="disabled" type="number(1,0)"/>
+            <column name="disabled" type="boolean"/>
             <column name="type" type="varchar2(255)"/>
             <column name="rule_id" type="varchar2(32)"/>
             <column name="attribute_name" type="varchar2(256)"/>
@@ -2025,7 +2025,7 @@
             <column name="executor" type="varchar2(255)"/>
             <column name="exec_style" type="varchar2(255)"/>
             <column name="role_sync_style" type="varchar2(255)"/>
-            <column name="template" type="number(1,0)"/>
+            <column name="template" type="boolean"/>
             <column name="signature" type="clob"/>
             <column name="attributes" type="clob"/>
             <column name="plan_initializer" type="varchar2(32)"/>
@@ -2119,8 +2119,8 @@
             </column>
             <column name="last_refresh" type="number(19,0)"/>
             <column name="last_target_aggregation" type="number(19,0)"/>
-            <column name="manually_correlated" type="number(1,0)"/>
-            <column name="entitlements" type="number(1,0)">
+            <column name="manually_correlated" type="boolean"/>
+            <column name="entitlements" type="boolean">
                 <constraints nullable="false"/>
             </column>
             <column name="identity_id" type="varchar2(32)"/>
@@ -2209,7 +2209,7 @@
             <column name="purview" type="varchar2(128)"/>
             <column name="application" type="varchar2(32)"/>
             <column name="type" type="varchar2(255)"/>
-            <column name="aggregated" type="number(1,0)"/>
+            <column name="aggregated" type="boolean"/>
             <column name="attribute" type="varchar2(322)"/>
             <column name="value" type="varchar2(450)"/>
             <column name="hash" type="varchar2(128)">
@@ -2219,8 +2219,8 @@
             <column name="displayable_name" type="varchar2(450)"/>
             <column name="uuid" type="varchar2(128)"/>
             <column name="attributes" type="clob"/>
-            <column name="requestable" type="number(1,0)"/>
-            <column name="uncorrelated" type="number(1,0)"/>
+            <column name="requestable" type="boolean"/>
+            <column name="uncorrelated" type="boolean"/>
             <column name="last_refresh" type="number(19,0)"/>
             <column name="last_target_aggregation" type="number(19,0)"/>
             <column name="key1" type="varchar2(128)"/>
@@ -2293,7 +2293,7 @@
             <column name="account_display_name" type="varchar2(128)"/>
             <column name="attribute_name" type="varchar2(450)"/>
             <column name="attribute_value" type="varchar2(450)"/>
-            <column name="permission" type="number(1,0)"/>
+            <column name="permission" type="boolean"/>
             <column name="idx" type="number(10,0)"/>
         </createTable>
 
@@ -2315,7 +2315,7 @@
             <column name="value_type" type="varchar2(128)"/>
             <column name="type" type="varchar2(128)"/>
             <column name="attributes" type="clob"/>
-            <column name="template" type="number(1,0)"/>
+            <column name="template" type="boolean"/>
         </createTable>
 
         <createTable tableName="spt_monitoring_statistic_tags">
@@ -2366,7 +2366,7 @@
             <column name="name" type="varchar2(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="task_terminated" type="number(1,0)"/>
+            <column name="task_terminated" type="boolean"/>
             <column name="completion_status" type="varchar2(255)"/>
         </createTable>
 
@@ -2422,7 +2422,7 @@
             <column name="install_date" type="number(19,0)"/>
             <column name="display_name" type="varchar2(255)"/>
             <column name="version" type="varchar2(255)"/>
-            <column name="disabled" type="number(1,0)"/>
+            <column name="disabled" type="boolean"/>
             <column name="right_required" type="varchar2(255)"/>
             <column name="min_system_version" type="varchar2(255)"/>
             <column name="max_system_version" type="varchar2(255)"/>
@@ -2446,7 +2446,7 @@
             <column name="name" type="varchar2(128)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="template" type="number(1,0)"/>
+            <column name="template" type="boolean"/>
             <column name="type" type="varchar2(255)"/>
             <column name="type_key" type="varchar2(255)"/>
             <column name="executor" type="varchar2(255)"/>
@@ -2475,7 +2475,7 @@
             <column name="identity_id" type="varchar2(32)"/>
             <column name="pending_workflow" type="varchar2(32)"/>
             <column name="renderer" type="varchar2(255)"/>
-            <column name="active" type="number(1,0)"/>
+            <column name="active" type="boolean"/>
             <column name="policy_id" type="varchar2(255)"/>
             <column name="policy_name" type="varchar2(255)"/>
             <column name="constraint_id" type="varchar2(255)"/>
@@ -2525,7 +2525,7 @@
             <column name="name" type="varchar2(128)"/>
             <column name="description" type="varchar2(1024)"/>
             <column name="bundle_id" type="varchar2(32)"/>
-            <column name="disabled" type="number(1,0)"/>
+            <column name="disabled" type="boolean"/>
             <column name="account_type" type="varchar2(128)"/>
             <column name="application" type="varchar2(32)"/>
             <column name="attributes" type="clob"/>
@@ -2587,7 +2587,7 @@
             <column name="attributes" type="clob"/>
             <column name="integration" type="varchar2(255)"/>
             <column name="certification_id" type="varchar2(32)"/>
-            <column name="forced" type="number(1,0)"/>
+            <column name="forced" type="boolean"/>
             <column name="type" type="varchar2(255)"/>
             <column name="status" type="varchar2(255)"/>
         </createTable>
@@ -2608,7 +2608,7 @@
             <column name="description" type="varchar2(1024)"/>
             <column name="action" type="varchar2(128)"/>
             <column name="css_class" type="varchar2(128)"/>
-            <column name="hidden" type="number(1,0)"/>
+            <column name="hidden" type="boolean"/>
             <column name="category" type="varchar2(128)"/>
             <column name="ordering" type="number(10,0)"/>
             <column name="arguments" type="clob"/>
@@ -2621,9 +2621,9 @@
             <column name="created" type="number(19,0)"/>
             <column name="modified" type="number(19,0)"/>
             <column name="owner" type="varchar2(32)"/>
-            <column name="allow_bulk" type="number(1,0)"/>
-            <column name="allow_other" type="number(1,0)"/>
-            <column name="allow_self" type="number(1,0)"/>
+            <column name="allow_bulk" type="boolean"/>
+            <column name="allow_other" type="boolean"/>
+            <column name="allow_self" type="boolean"/>
             <column name="options" type="clob"/>
             <column name="dynamic_scope" type="varchar2(32)">
                 <constraints nullable="false"/>
@@ -2649,7 +2649,7 @@
             <column name="remediation_details" type="clob"/>
             <column name="completion_comments" type="clob"/>
             <column name="completion_date" type="number(19,0)"/>
-            <column name="assimilated" type="number(1,0)"/>
+            <column name="assimilated" type="boolean"/>
             <column name="comments" type="clob"/>
             <column name="attributes" type="clob"/>
             <column name="idx" type="number(10,0)"/>
@@ -2717,8 +2717,8 @@
             <column name="filter_string" type="varchar2(255)"/>
             <column name="description" type="clob"/>
             <column name="prompt" type="clob"/>
-            <column name="multi" type="number(1,0)"/>
-            <column name="required" type="number(1,0)"/>
+            <column name="multi" type="boolean"/>
+            <column name="required" type="boolean"/>
             <column name="idx" type="number(10,0)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -2739,8 +2739,8 @@
             <column name="description" type="varchar2(4000)"/>
             <column name="executor" type="varchar2(255)"/>
             <column name="form_path" type="varchar2(128)"/>
-            <column name="template" type="number(1,0)"/>
-            <column name="hidden" type="number(1,0)"/>
+            <column name="template" type="boolean"/>
+            <column name="hidden" type="boolean"/>
             <column name="result_expiration" type="number(10,0)"/>
             <column name="progress_interval" type="number(10,0)"/>
             <column name="sub_type" type="varchar2(128)"/>
@@ -2775,7 +2775,7 @@
             <column name="filter_string" type="varchar2(255)"/>
             <column name="description" type="clob"/>
             <column name="prompt" type="clob"/>
-            <column name="multi" type="number(1,0)"/>
+            <column name="multi" type="boolean"/>
             <column name="idx" type="number(10,0)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -2841,7 +2841,7 @@
             <column name="bundle_id" type="varchar2(128)"/>
             <column name="bundle_name" type="varchar2(128)"/>
             <column name="provisioning_plan" type="clob"/>
-            <column name="bundle_deleted" type="number(1,0)"/>
+            <column name="bundle_deleted" type="boolean"/>
         </createTable>
 
         <createTable tableName="spt_role_index">
@@ -2853,14 +2853,14 @@
             <column name="owner" type="varchar2(32)"/>
             <column name="assigned_scope" type="varchar2(32)"/>
             <column name="assigned_scope_path" type="varchar2(450)"/>
-            <column name="incomplete" type="number(1,0)"/>
+            <column name="incomplete" type="boolean"/>
             <column name="composite_score" type="number(10,0)"/>
             <column name="attributes" type="clob"/>
             <column name="items" type="clob"/>
             <column name="bundle" type="varchar2(32)"/>
             <column name="assigned_count" type="number(10,0)"/>
             <column name="detected_count" type="number(10,0)"/>
-            <column name="associated_to_role" type="number(1,0)"/>
+            <column name="associated_to_role" type="boolean"/>
             <column name="last_certified_membership" type="number(19,0)"/>
             <column name="last_certified_composition" type="number(19,0)"/>
             <column name="last_assigned" type="number(19,0)"/>
@@ -2879,11 +2879,11 @@
             <column name="assigned_scope_path" type="varchar2(450)"/>
             <column name="role" type="varchar2(32)"/>
             <column name="name" type="varchar2(255)"/>
-            <column name="additional_entitlements" type="number(1,0)"/>
-            <column name="missing_required" type="number(1,0)"/>
-            <column name="assigned" type="number(1,0)"/>
-            <column name="detected" type="number(1,0)"/>
-            <column name="detected_exception" type="number(1,0)"/>
+            <column name="additional_entitlements" type="boolean"/>
+            <column name="missing_required" type="boolean"/>
+            <column name="assigned" type="boolean"/>
+            <column name="detected" type="boolean"/>
+            <column name="detected_exception" type="boolean"/>
         </createTable>
 
         <createTable tableName="spt_role_mining_result">
@@ -2896,7 +2896,7 @@
             <column name="assigned_scope" type="varchar2(32)"/>
             <column name="assigned_scope_path" type="varchar2(450)"/>
             <column name="name" type="varchar2(128)"/>
-            <column name="pending" type="number(1,0)"/>
+            <column name="pending" type="boolean"/>
             <column name="config" type="clob"/>
             <column name="roles" type="clob"/>
         </createTable>
@@ -2989,7 +2989,7 @@
             <column name="filter_string" type="varchar2(255)"/>
             <column name="description" type="clob"/>
             <column name="prompt" type="clob"/>
-            <column name="multi" type="number(1,0)"/>
+            <column name="multi" type="boolean"/>
             <column name="idx" type="number(10,0)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -3004,7 +3004,7 @@
             <column name="filter_string" type="varchar2(255)"/>
             <column name="description" type="clob"/>
             <column name="prompt" type="clob"/>
-            <column name="multi" type="number(1,0)"/>
+            <column name="multi" type="boolean"/>
             <column name="idx" type="number(10,0)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -3017,13 +3017,13 @@
             <column name="name" type="varchar2(255)"/>
             <column name="type" type="varchar2(255)"/>
             <column name="description" type="clob"/>
-            <column name="required" type="number(1,0)"/>
-            <column name="entitlement" type="number(1,0)"/>
-            <column name="is_group" type="number(1,0)"/>
-            <column name="managed" type="number(1,0)"/>
-            <column name="multi_valued" type="number(1,0)"/>
-            <column name="minable" type="number(1,0)"/>
-            <column name="indexed" type="number(1,0)"/>
+            <column name="required" type="boolean"/>
+            <column name="entitlement" type="boolean"/>
+            <column name="is_group" type="boolean"/>
+            <column name="managed" type="boolean"/>
+            <column name="multi_valued" type="boolean"/>
+            <column name="minable" type="boolean"/>
+            <column name="indexed" type="boolean"/>
             <column name="correlation_key" type="number(10,0)"/>
             <column name="source" type="varchar2(255)"/>
             <column name="internal_name" type="varchar2(255)"/>
@@ -3050,10 +3050,10 @@
             </column>
             <column name="display_name" type="varchar2(128)"/>
             <column name="parent_id" type="varchar2(32)"/>
-            <column name="manually_created" type="number(1,0)"/>
-            <column name="dormant" type="number(1,0)"/>
+            <column name="manually_created" type="boolean"/>
+            <column name="dormant" type="boolean"/>
             <column name="path" type="varchar2(450)"/>
-            <column name="dirty" type="number(1,0)"/>
+            <column name="dirty" type="boolean"/>
             <column name="idx" type="number(10,0)"/>
         </createTable>
 
@@ -3087,7 +3087,7 @@
             <column name="owner" type="varchar2(32)"/>
             <column name="assigned_scope" type="varchar2(32)"/>
             <column name="assigned_scope_path" type="varchar2(450)"/>
-            <column name="incomplete" type="number(1,0)"/>
+            <column name="incomplete" type="boolean"/>
             <column name="composite_score" type="number(10,0)"/>
             <column name="attributes" type="clob"/>
             <column name="items" type="clob"/>
@@ -3117,7 +3117,7 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="heartbeat" type="number(19,0)"/>
-            <column name="inactive" type="number(1,0)"/>
+            <column name="inactive" type="boolean"/>
             <column name="attributes" type="clob"/>
         </createTable>
 
@@ -3189,7 +3189,7 @@
             <column name="application" type="varchar2(128)"/>
             <column name="account" type="varchar2(128)"/>
             <column name="text" type="clob"/>
-            <column name="electronic_sign" type="number(1,0)"/>
+            <column name="electronic_sign" type="boolean"/>
             <column name="certification_id" type="varchar2(32)"/>
             <column name="idx" type="number(10,0)"/>
         </createTable>
@@ -3222,7 +3222,7 @@
             <column name="violation_owner" type="varchar2(32)"/>
             <column name="violation_owner_rule" type="varchar2(32)"/>
             <column name="compensating_control" type="clob"/>
-            <column name="disabled" type="number(1,0)"/>
+            <column name="disabled" type="boolean"/>
             <column name="weight" type="number(10,0)"/>
             <column name="remediation_advice" type="clob"/>
             <column name="violation_summary" type="clob"/>
@@ -3333,15 +3333,15 @@
             <column name="object_id" type="varchar2(32)"/>
             <column name="type" type="varchar2(8)"/>
             <column name="hierarchy" type="varchar2(512)"/>
-            <column name="flattened" type="number(1,0)"/>
+            <column name="flattened" type="boolean"/>
             <column name="application_name" type="varchar2(128)"/>
             <column name="target_type" type="varchar2(128)"/>
             <column name="target_name" type="varchar2(255)"/>
             <column name="target_id" type="varchar2(32)"/>
             <column name="rights" type="varchar2(512)"/>
-            <column name="inherited" type="number(1,0)"/>
+            <column name="inherited" type="boolean"/>
             <column name="effective" type="number(10,0)"/>
-            <column name="deny_permission" type="number(1,0)"/>
+            <column name="deny_permission" type="boolean"/>
             <column name="last_aggregation" type="number(19,0)"/>
             <column name="attributes" type="clob"/>
         </createTable>
@@ -3393,8 +3393,8 @@
             <column name="description" type="varchar2(4000)"/>
             <column name="executor" type="varchar2(255)"/>
             <column name="form_path" type="varchar2(128)"/>
-            <column name="template" type="number(1,0)"/>
-            <column name="hidden" type="number(1,0)"/>
+            <column name="template" type="boolean"/>
+            <column name="hidden" type="boolean"/>
             <column name="result_expiration" type="number(10,0)"/>
             <column name="progress_interval" type="number(10,0)"/>
             <column name="sub_type" type="varchar2(128)"/>
@@ -3403,8 +3403,8 @@
             <column name="arguments" type="clob"/>
             <column name="parent" type="varchar2(32)"/>
             <column name="result_renderer" type="varchar2(255)"/>
-            <column name="concurrent" type="number(1,0)"/>
-            <column name="deprecated" type="number(1,0)">
+            <column name="concurrent" type="boolean"/>
+            <column name="deprecated" type="boolean">
                 <constraints nullable="false"/>
             </column>
             <column name="result_action" type="varchar2(255)"/>
@@ -3472,8 +3472,8 @@
             <column name="target_class" type="varchar2(255)"/>
             <column name="target_id" type="varchar2(255)"/>
             <column name="target_name" type="varchar2(255)"/>
-            <column name="task_terminated" type="number(1,0)"/>
-            <column name="partitioned" type="number(1,0)"/>
+            <column name="task_terminated" type="boolean"/>
+            <column name="partitioned" type="boolean"/>
             <column name="completion_status" type="varchar2(255)"/>
             <column name="run_length" type="number(10,0)"/>
             <column name="run_length_average" type="number(10,0)"/>
@@ -3491,8 +3491,8 @@
             <column name="input_template" type="varchar2(255)"/>
             <column name="description" type="clob"/>
             <column name="prompt" type="clob"/>
-            <column name="multi" type="number(1,0)"/>
-            <column name="required" type="number(1,0)"/>
+            <column name="multi" type="boolean"/>
+            <column name="required" type="boolean"/>
             <column name="default_value" type="varchar2(255)"/>
             <column name="idx" type="number(10,0)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -3508,7 +3508,7 @@
             <column name="filter_string" type="varchar2(255)"/>
             <column name="description" type="clob"/>
             <column name="prompt" type="clob"/>
-            <column name="multi" type="number(1,0)"/>
+            <column name="multi" type="boolean"/>
             <column name="idx" type="number(10,0)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -3636,8 +3636,8 @@
             <column name="severity" type="varchar2(255)"/>
             <column name="attributes" type="clob"/>
             <column name="system_attributes" type="clob"/>
-            <column name="immutable" type="number(1,0)"/>
-            <column name="signed" type="number(1,0)"/>
+            <column name="immutable" type="boolean"/>
+            <column name="signed" type="boolean"/>
             <column name="completer" type="varchar2(255)"/>
         </createTable>
 
@@ -3664,8 +3664,8 @@
             <column name="assigned_scope_path" type="varchar2(450)"/>
             <column name="name" type="varchar2(128)"/>
             <column name="description_template" type="varchar2(1024)"/>
-            <column name="disabled" type="number(1,0)"/>
-            <column name="no_work_item" type="number(1,0)"/>
+            <column name="disabled" type="boolean"/>
+            <column name="no_work_item" type="boolean"/>
             <column name="parent" type="varchar2(32)"/>
             <column name="owner_rule" type="varchar2(32)"/>
             <column name="hours_till_escalation" type="number(10,0)"/>
@@ -3704,11 +3704,11 @@
             <column name="description" type="varchar2(4000)"/>
             <column name="type" type="varchar2(128)"/>
             <column name="task_type" type="varchar2(255)"/>
-            <column name="template" type="number(1,0)"/>
-            <column name="explicit_transitions" type="number(1,0)"/>
-            <column name="monitored" type="number(1,0)"/>
+            <column name="template" type="boolean"/>
+            <column name="explicit_transitions" type="boolean"/>
+            <column name="monitored" type="boolean"/>
             <column name="result_expiration" type="number(10,0)"/>
-            <column name="complete" type="number(1,0)"/>
+            <column name="complete" type="boolean"/>
             <column name="handler" type="varchar2(128)"/>
             <column name="work_item_renderer" type="varchar2(128)"/>
             <column name="variable_definitions" type="clob"/>
@@ -3740,7 +3740,7 @@
             <column name="completed" type="number(19,0)"/>
             <column name="name" type="varchar2(450)"/>
             <column name="description" type="varchar2(1024)"/>
-            <column name="complete" type="number(1,0)"/>
+            <column name="complete" type="boolean"/>
             <column name="target_class" type="varchar2(255)"/>
             <column name="target_id" type="varchar2(255)"/>
             <column name="target_name" type="varchar2(255)"/>
@@ -3808,7 +3808,7 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="description" type="varchar2(4000)"/>
-            <column name="replicated" type="number(1,0)"/>
+            <column name="replicated" type="boolean"/>
             <column name="case_name" type="varchar2(255)"/>
             <column name="tests" type="clob"/>
             <column name="responses" type="clob"/>

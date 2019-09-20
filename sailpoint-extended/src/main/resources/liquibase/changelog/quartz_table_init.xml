@@ -3,6 +3,9 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
+    <property name="blob_type" value="BYTEA" dbms="postgresql"/>
+    <property name="blob_type" value="${blob_type}"/>
+
     <changeSet author="sailpoint" id="1">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -24,19 +27,19 @@
             <column name="JOB_CLASS_NAME" type="VARCHAR2(250)">
                 <constraints nullable="false"/>
             </column>
-            <column name="IS_DURABLE" type="VARCHAR2(1)">
+            <column name="IS_DURABLE" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column name="IS_NONCONCURRENT" type="VARCHAR2(1)">
+            <column name="IS_NONCONCURRENT" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column name="IS_UPDATE_DATA" type="VARCHAR2(1)">
+            <column name="IS_UPDATE_DATA" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column name="REQUESTS_RECOVERY" type="VARCHAR2(1)">
+            <column name="REQUESTS_RECOVERY" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column name="JOB_DATA" type="BLOB"/>
+            <column name="JOB_DATA" type="${blob_type}"/>
         </createTable>
 
 
@@ -72,7 +75,7 @@
             <column name="END_TIME" type="NUMBER(13, 0)"/>
             <column name="CALENDAR_NAME" type="VARCHAR2(200)"/>
             <column name="MISFIRE_INSTR" type="NUMBER(2, 0)"/>
-            <column name="JOB_DATA" type="BLOB"/>
+            <column name="JOB_DATA" type="${blob_type}"/>
         </createTable>
         <addForeignKeyConstraint constraintName="QRTZ221_TRIGGER_TO_JOBS_FK"
                                  baseTableName="QRTZ221_TRIGGERS"
@@ -149,8 +152,8 @@
             <column name="LONG_PROP_2" type="NUMBER(13)"/>
             <column name="DEC_PROP_1" type="NUMERIC(13,4)"/>
             <column name="DEC_PROP_2" type="NUMERIC(13,4)"/>
-            <column name="BOOL_PROP_1" type="VARCHAR2(1)"/>
-            <column name="BOOL_PROP_2" type="VARCHAR2(1)"/>
+            <column name="BOOL_PROP_1" type="BOOLEAN"/>
+            <column name="BOOL_PROP_2" type="BOOLEAN"/>
         </createTable>
         <addForeignKeyConstraint constraintName="QRTZ221_SP_TRIG_TO_TRIG_FK"
                                  baseTableName="QRTZ221_SIMPROP_TRIGGERS"
@@ -169,7 +172,7 @@
             <column name="TRIGGER_GROUP" type="VARCHAR2(200)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_BLOB_TRIG_PK"/>
             </column>
-            <column name="BLOB_DATA" type="BLOB"/>
+            <column name="BLOB_DATA" type="${blob_type}"/>
         </createTable>
         <addForeignKeyConstraint constraintName="QRTZ221_BLOB_TRIG_TO_TRIG_FK"
                                  baseTableName="QRTZ221_BLOB_TRIGGERS"
@@ -185,7 +188,7 @@
             <column name="CALENDAR_NAME" type="VARCHAR2(200)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="QRTZ221_CALENDARS_PK"/>
             </column>
-            <column name="CALENDAR" type="BLOB">
+            <column name="CALENDAR" type="${blob_type}">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -231,8 +234,8 @@
             </column>
             <column name="JOB_NAME" type="VARCHAR2(200)"/>
             <column name="JOB_GROUP" type="VARCHAR2(200)"/>
-            <column name="IS_NONCONCURRENT" type="VARCHAR2(1)"/>
-            <column name="REQUESTS_RECOVERY" type="VARCHAR2(1)"/>
+            <column name="IS_NONCONCURRENT" type="BOOLEAN"/>
+            <column name="REQUESTS_RECOVERY" type="BOOLEAN"/>
         </createTable>
 
 
