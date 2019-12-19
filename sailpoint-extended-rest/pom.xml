@@ -18,20 +18,6 @@
             <artifactId>sailpoint-extended-common</artifactId>
             <version>${version}</version>
         </dependency>
-        <!-- Sailpoint extended model -->
-        <dependency>
-            <groupId>com.sailpoint.extended</groupId>
-            <artifactId>sailpoint-extended-model</artifactId>
-            <version>${version}</version>
-        </dependency>
-
-        <!-- Servlet for testing -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>testing</scope>
-        </dependency>
     </dependencies>
 
 </project>

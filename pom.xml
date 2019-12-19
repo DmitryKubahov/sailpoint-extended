@@ -9,12 +9,9 @@
     <version>0.0.1</version>
     <modules>
         <module>sailpoint-extended-common</module>
-        <module>sailpoint-extended-model</module>
-        <module>sailpoint-vaadin-ui</module>
         <module>sailpoint-extended-rest</module>
         <module>sailpoint-extended</module>
         <module>sailpoint-build</module>
-        <module>sailpoint-vaadin-plugin</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -23,23 +20,16 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <!-- Default sail point target  -->
-        <sailpoint.environment.target>docker</sailpoint.environment.target>
+        <sailpoint.environment.target>local</sailpoint.environment.target>
 
         <!-- Versions properties -->
-        <liquibase.version>3.7.0</liquibase.version>
+        <micrometer.version>1.3.2</micrometer.version>
+        <servlet.version>3.1.0</servlet.version>
         <spring.version>5.1.5.RELEASE</spring.version>
-        <spring.data.jpa.version>1.11.22.RELEASE</spring.data.jpa.version>
-        <jpa.persistance.api.version>2.2</jpa.persistance.api.version>
-        <hibernate.version>5.3.7.Final</hibernate.version>
         <jersey.version>2.22.2</jersey.version>
         <jackson.annotations.version>2.9.8</jackson.annotations.version>
         <slf4j.version>1.7.25</slf4j.version>
         <lombok.version>1.18.8</lombok.version>
-        <mapstruct.version>1.3.0.Final</mapstruct.version>
-
-        <!-- Vaadin version -->
-        <vaadin.version>14.0.2</vaadin.version>
-        <chart.java.version>2.5.0</chart.java.version>
 
         <!-- Identity iq version -->
         <identityiq.version>8.0</identityiq.version>
@@ -54,55 +44,6 @@
         <mockito.version>3.0.0</mockito.version>
     </properties>
 
-    <!-- Adding vaadin repositories -->
-    <repositories>
-        <repository>
-            <id>central</id>
-            <url>https://repo1.maven.org/maven2/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <!-- Repository used by many Vaadin add-ons -->
-        <repository>
-            <id>Vaadin Directory</id>
-            <url>https://maven.vaadin.com/vaadin-addons</url>
-        </repository>
-        <!-- Repository needed for the snapshot versions of Vaadin -->
-        <repository>
-            <id>vaadin-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
-    <!-- Adding plugin vaadin repositories -->
-    <pluginRepositories>
-        <pluginRepository>
-            <id>central</id>
-            <url>https://repo1.maven.org/maven2/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <!-- Repository needed for prerelease versions of Vaadin -->
-        <pluginRepository>
-            <id>vaadin-prereleases</id>
-            <url>https://maven.vaadin.com/vaadin-prereleases</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>vaadin-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
-
     <!-- Use spring bom to avoid repeat using of version properties-->
     <dependencyManagement>
         <dependencies>
@@ -112,13 +53,6 @@
                 <version>${spring.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-bom</artifactId>
-                <type>pom</type>
-                <scope>import</scope>
-                <version>${vaadin.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -151,20 +85,19 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Mapstruct -->
+        <!-- SLF4j api -->
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
-        </dependency>
-        <!-- Mapstruct processor-->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>${mapstruct.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
             <scope>provided</scope>
         </dependency>
-
+        <!-- Spring core -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <!-- Jersey servlets -->
         <dependency>
             <groupId>org.glassfish.jersey.bundles</groupId>
@@ -172,12 +105,17 @@
             <version>${jersey.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Jackson annotations -->
+        <!-- Micrometer for prometheus -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.annotations.version}</version>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>${micrometer.version}</version>
+        </dependency>
+        <!-- Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
             <scope>provided</scope>
         </dependency>
 

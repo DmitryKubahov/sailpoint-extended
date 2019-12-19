@@ -34,18 +34,6 @@
             <artifactId>sailpoint-extended-common</artifactId>
             <version>${version}</version>
         </dependency>
-        <!-- Sailpoint extended model -->
-        <dependency>
-            <groupId>com.sailpoint.extended</groupId>
-            <artifactId>sailpoint-extended-model</artifactId>
-            <version>${version}</version>
-        </dependency>
-        <!-- Sailpoint extended vaadin ui -->
-        <dependency>
-            <groupId>com.sailpoint.extended</groupId>
-            <artifactId>sailpoint-vaadin-ui</artifactId>
-            <version>${version}</version>
-        </dependency>
         <!-- Sailpoint extended rest -->
         <dependency>
             <groupId>com.sailpoint.extended</groupId>
