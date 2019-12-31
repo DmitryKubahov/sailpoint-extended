@@ -3,16 +3,14 @@
 :toclevels: 5
 
 == Description
-Contains features for extending IdentityIQ 8.0
+Contains REST for Prometheus and Grafana dashboard for IdentityIQ 8.0
 
 == Structure
 . *sailpoint-build* - module without code. Uses for managing building process of IdentityIQ via SSD.
 . *sailpoint-extended* - main module for extending. Contains spring configurations.
 . *sailpoint-extended-common* - common module for all features. Contains common stuff like: mappers, spring context provider, etc.
-. *sailpoint-extended-model* - contains custom model entities and repositories.
-. *sailpoint-extended-rest* - contains custom rest controller, mapper and entity for it.
-. *sailpoint-vaadin-plugin* - module for building plugin for IdentityIQ with Vaadin UI.
-. *sailpoint-vaadin-ui* - all Vaadin UI components.
+. *sailpoint-extended-rest* - contains external rest controller for Prometheus.
+. *grafana* - IdentityIQ dashboard json for Grafana
 
 == Properties
 Main properties:
@@ -21,13 +19,6 @@ Main properties:
 . *sailpoint.build.directory.path* - absolute path to SSD.
 
 == Building
-Before building project install:
-
-. nodejs 10+
-. npm
-
-This is very important for using Vaadin UI.
-
 Command:
 ----
 mvn clean install -Dsailpoint
