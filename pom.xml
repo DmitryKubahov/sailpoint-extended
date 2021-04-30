@@ -27,7 +27,7 @@
 
         <!-- Versions properties -->
         <liquibase.version>3.7.0</liquibase.version>
-        <spring.version>5.1.5.RELEASE</spring.version>
+        <spring.version>5.1.18.RELEASE</spring.version>
         <spring.data.jpa.version>1.11.22.RELEASE</spring.data.jpa.version>
         <jpa.persistance.api.version>2.2</jpa.persistance.api.version>
         <hibernate.version>5.3.7.Final</hibernate.version>
