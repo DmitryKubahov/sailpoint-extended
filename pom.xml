@@ -38,7 +38,7 @@
         <mapstruct.version>1.3.0.Final</mapstruct.version>
 
         <!-- Vaadin version -->
-        <vaadin.version>14.0.2</vaadin.version>
+        <vaadin.version>14.6.8</vaadin.version>
         <chart.java.version>2.5.0</chart.java.version>
 
         <!-- Identity iq version -->
